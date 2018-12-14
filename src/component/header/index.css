@@ -1,0 +1,35 @@
+.header {
+  box-shadow: 0 2px 8px #f0f1f2;
+}
+.header .h-littledark {
+  background-color: #F5F5F5;
+}
+.header .h-bg {
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  width: 100%;
+  height: 100%;
+}
+.header .h-bg.dance-bg {
+  background-image: url("../../static/dance_logo.jpg");
+}
+.header .h-bg.football-bg {
+  background-image: url("../../static/football_logo.jpg");
+}
+.header .h-bg.basketball-bg {
+  background-image: url("../../static/basketball_logo.jpg");
+}
+.header .h-bg.run-bg {
+  background-image: url('../../static/logo.jpeg');
+}
+.header .h-bg.snow-bg {
+  background-image: url('../../static/snow_logo.jpg');
+}
+.header .h-autoInput {
+  width: 100%;
+}
+.header #menu-right {
+  float: right;
+  margin-right: 100px;
+}

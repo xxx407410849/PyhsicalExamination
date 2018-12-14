@@ -1,0 +1,17 @@
+.lance-divider {
+  position: relative;
+  background-color: #DDD;
+  border: none;
+  background-image: repeating-linear-gradient(-45deg, #fff, #fff 4px, transparent 4px, transparent 8px);
+  transform: translateY(-50%);
+  top: 50%;
+  margin: 0 auto;
+}
+.lance-divider.lance-divider-vertical {
+  width: 3px;
+  height: 100%;
+}
+.lance-divider.lance-divider-justify {
+  width: 100%;
+  height: 3px;
+}

@@ -18,9 +18,12 @@ class Home extends React.Component{
 
     }
     render(){
-        return [
-
-        ]
+        console.log(this.props);
+        return (
+            <div>
+                <Header />
+            </div> 
+        )
     }
 }
 

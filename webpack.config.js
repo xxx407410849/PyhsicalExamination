@@ -36,15 +36,28 @@ module.exports = {
                 use: {
                     loader: 'babel-loader',
                     options: {
-                        presets: ['latest','react'],
+                        presets: ['@babel/preset-env','@babel/preset-react'],
                         plugins: [
-                            'syntax-dynamic-import'
+                            //static函数转换
+                            '@babel/plugin-proposal-class-properties',
+                            //异步加载
+                            '@babel/plugin-syntax-dynamic-import',
+                            //处理promise asnyc等等
+                            '@babel/plugin-transform-runtime',
+                            '@babel/plugin-syntax-function-bind',
+                            //解构赋值
+                            '@babel/plugin-syntax-object-rest-spread',
+                            ['import',{
+                                "libraryName": "antd",
+                                "libraryDirectory": "lib",
+                                "style": true
+                            }]
                         ]
                     }
                 }
             },
             {
-                test: /\.(png|jpg|gif)$/,
+                test: /\.(png|jpg|gif|jpeg)$/,
                 use: [
                   {
                     loader: 'url-loader',
@@ -62,7 +75,7 @@ module.exports = {
                     use: [
                         {loader : 'css-loader' , options : { importLoaders: 2 , autoprefixer : false}},
                         {loader: 'postcss-loader'},
-                        {loader : 'less-loader' , options : { relativeUrls : true}}
+                        {loader : 'less-loader' , options : { relativeUrls : true , javascriptEnabled: true}}
                     ]
 
                 })

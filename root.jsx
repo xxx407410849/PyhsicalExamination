@@ -1,17 +1,17 @@
 //----页面和路由的根文件----
-import 'babel-polyfill';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {Route , Link ,BrowserRouter, Switch} from 'react-router-dom';
 import {Provider} from 'react-redux';
 import store from './src/reducer/store.jsx';
 // import App from './public/reducer/TodoListReducer.jsx';
-import combineReducers from 'redux-immutable';
 import asnycLoad from './src/common/asnycLoad.jsx';
 import Immutable from 'immutable';
+
 // import './public/less/index.less';
 
 //-----页面注册----
+const Home = asnycLoad(() => import('./src/page/index.jsx'));
 
 //redux监控
 const unsubscribe = store.subscribe(()=>{
@@ -93,8 +93,9 @@ class Demolist extends React.Component{
 
 ReactDOM.render(
     <BrowserRouter basename = "/dist/view/index.html">
-    <div>
-        <Route path = "/" component = {Demolist} />
+        <Provider store = {store}>
+            <Route path = "/" component = {Home} />
+        </Provider>
         {/* <Route path = "/emotionList" component = {Breadcrumb} />
         <Switch>  
             <Route exact path = "/code" component = {Codectncomponent}/>
@@ -102,7 +103,6 @@ ReactDOM.render(
             <Route exact path = "/emotionList" component = {Todolistctncomponent} />
             <Route exact path = "/emotionListRedux" component = {AppReduxEntry} />
         </Switch> */}
-    </div>
     </BrowserRouter>,
     document.getElementById('reactRoot')
 )

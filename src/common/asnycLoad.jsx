@@ -1,3 +1,4 @@
+import React from 'react';
 import {Spin,Alert} from 'antd';
 import Loadable from 'react-loadable';
 
@@ -16,7 +17,7 @@ const MyLoadingComponent = ({ isLoading, error }) => {
         return null;
     }
 };
-export const asyncLoad = (func) => {
+export default function asyncLoad(func){
     return Loadable({
         loader : func,
         loading : MyLoadingComponent

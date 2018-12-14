@@ -1,47 +1,84 @@
 import React from 'react';
-import {Menu,Icon,Row,Col} from 'antd';
+import {Menu,Row,Col} from 'antd';
 import { Link } from 'react-router-dom';
-class Header extends React.PureComponent{
+import './index.less';
+import Divider from '../../pureComponent/divider/index.jsx';
+import AutoCompleteInput from '../../pureComponent/autoCompleteInput/index.jsx';
+class Header extends React.Component{
     constructor(props){
         super(props);
         this.state = {
-            selectedKey : ''
+            selectedKey : '',
+            mentionData : []
         }
     }
-    clickHandle = (e) => {
-        this.setState({
-            selectedKey : e.key
-        })
-    }
+    _searchMentionHandle = (value) => {
+        //函数防抖
+        if(this.timer)clearTimeout(this.timer);
+        this.timer = setTimeout(()=>{
+            console.log("mention",value);
+            this.setState({
+                mentionData : [{type : 'product' , text : '体测数据分析'},{type : 'user' , text : '李陈'},{type : 'team' , text : '三年一班'}]
+            })
+        },300);
+    };
+    _searchHandle = (value,option) => {
+        console.log("search",value,option);
+    };
     render(){
-        return [
-            <nav className = "header" onClick = {this.clickHandle}>
-                <Row>
-                    <Col span = {6} pull = {18}>
-                        <div className = "h-icon">
-                            <i className = "iconfont"></i>
+        return (
+            <nav className = "header">
+                <Row 
+                    type = "flex"
+                    justify = "space-between"
+                >
+                    <Col span = {8}>
+                        <div className = "h-bg run-bg">
                         </div>
                     </Col>
-                    <Col span = {18} push = {6}>
+                    <Col span = {1} >
+                        <Divider type = "vertical"/>
+                    </Col>
+                    <Col span = {4} >
+                        <AutoCompleteInput
+                            placeholder = "全站搜索"
+                            searchHandle = {this._searchHandle}
+                            searchMentionHandle = {this._searchMentionHandle}
+                            dataSource = {this.state.mentionData}
+                            extraClass = "h-autoInput"
+                        />
+                    </Col>
+                    <Col span = {1}>
+                        <Divider type = "vertical"/>
+                    </Col>
+                    <Col span = {7}>
                         <Menu 
                             mode = "horizontal"
                             defaultSelectedKeys = {['phyexmData']}
-                            style = {{ lineHeight = "64px" }}
+                            style = {{lineHeight : "64px"}}
+                            id = "menu-right"
                         >
-                            <Menu.item key = "authority">
+                            <Menu.Item key = "authority">
                                 <Link to = "/authority">权限管理</Link>
-                            </Menu.item>
-                            <Menu.item key = "phyexmData">
-                                <Link to = "/phyexmData">体测数据</Link>
-                            </Menu.item>
-                            <Menu.item key = "dataVisual">
+                            </Menu.Item>
+                            <Menu.Item key = "phyexmData">
+                                <Link to = "/phyexmData">数据查询</Link>
+                            </Menu.Item>
+                            <Menu.Item key = "dataVisual">
                                 <Link to = "/dataVisual">数据分析</Link>
-                            </Menu.item>
+                            </Menu.Item>
+                            <Menu.Item>
+                                <Link to = "/explain">作品介绍</Link>
+                            </Menu.Item>
                         </Menu>   
                     </Col>
-                </Row>   
+                    <Col span = {3}>
+                        <div></div>
+                    </Col>
+                </Row>
+
             </nav>
-        ]
+        )
     }
 }
 
