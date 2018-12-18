@@ -36,11 +36,11 @@ class Header extends React.Component {
                     justify="space-between"
                     className="h-row"
                 >
-                    <Col md={7} sm={0} xs={0}>
+                    <Col lg={7} md={12} sm={0} xs={0}>
                         <div className="h-bg run-bg">
                         </div>
                     </Col>
-                    <Col md={5} sm={0} xs={0}>
+                    <Col lg={5} sm={0} xs={0}>
                         <AutoCompleteInput
                             placeholder="全站搜索"
                             searchHandle={this._searchHandle}

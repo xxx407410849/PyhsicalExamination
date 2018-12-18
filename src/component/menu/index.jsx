@@ -1,6 +1,8 @@
 import React from 'react';
 import { Menu, Icon } from 'antd';
 import './index.less';
+import Divider from '../../pureComponent/divider/index.jsx';
+import LogoDiv from '../logoDiv/index.jsx';
 
 const SubMenu = Menu.SubMenu;
 const MenuItemGroup = Menu.ItemGroup;
@@ -41,6 +43,7 @@ class SlideMenu extends React.Component{
     render(){
         return (
             <div className = "slideMenu">
+                <Divider extraClass = " sliderMenu-divider"/>
                 <Menu
                     mode = "inline"
                     style = {{width : 256 , border : "none"}}
@@ -99,7 +102,9 @@ class SlideMenu extends React.Component{
                             {this.renderSubTitle("user-add","变更体能数据/学生数据","menu-sub-title-changeItem")}
                         </Menu.Item>
                     </SubMenu>
-                </Menu>    
+                </Menu>
+                <Divider extraClass = " sliderMenu-divider"/>
+                <LogoDiv />
             </div>
         )
     }
