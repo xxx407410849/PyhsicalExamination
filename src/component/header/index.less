@@ -1,5 +1,14 @@
 .header{
     box-shadow: 0 2px 8px #f0f1f2;
+    max-height: 66px;
+    overflow: hidden;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    .h-row{
+        flex-wrap: nowrap;
+        overflow: hidden;
+    }
     .h-littledark{
         background-color: #F5F5F5;
     }
@@ -26,11 +35,41 @@
         }
     }
     .h-autoInput{
-        width: 100%;
+    }
+    .h-welcome{
+        line-height: 64px;
+        overflow: hidden;
+        max-height: 64px;
+        white-space: nowrap;
+        span{
+            font-size: 18px;
+            color: lightblue;
+            font-weight: 300;
+
+        }
+        .name{
+            margin-left: 5px;
+            color: lightseagreen;
+            font-size: 18px;
+            max-width: .5rem;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
     }
     #menu-right{
         float: right;
         margin-right: 100px;
     }
-
+    @media screen and (max-width: 1260px){
+        #menu-right{
+            margin-right: 0;
+        }
+    }
+    @media screen and (max-width: 768px){
+        #menu-right{
+            display: table;
+            float: none;
+            margin: 0 auto;
+        }
+    }
 }

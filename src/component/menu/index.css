@@ -1,0 +1,9 @@
+.slideMenu {
+  position: fixed;
+  left: 0;
+  margin-top: 66px;
+  height: 100%;
+  padding-top: 20px;
+  background-color: #F9F9F9;
+  box-shadow: 3px 3px 3px 0 #f0f1f2;
+}

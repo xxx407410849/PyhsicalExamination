@@ -3,12 +3,13 @@ import './index.less';
 import Header from '../component/header/index.jsx';
 import React from 'react';
 import {connect} from 'react-redux'
-
+import SlideMenu from '../component/menu/index.jsx';
 class Home extends React.Component{
     constructor(props){
         super(props);
         this.state = {
-
+            menuOpenKey : ['Insert'],
+            menuSelectedKey : ['查询数据']
         }
     }
     componentDidMount(){
@@ -17,11 +18,37 @@ class Home extends React.Component{
     componentWillUnmount(){
 
     }
+
+    //----sliderMenu----
+    _menuClickHandle = (e) => {
+        this.changeSelected([e.key]);
+    };
+    _menuOpenHandle = (key) => {
+        this.changeOpen(key);
+    }
+
+    changeOpen = (array) => {
+        this.setState({
+            menuOpenKey : array
+        })
+    }
+    changeSelected = (array) => {
+        this.setState({
+            menuSelectedKey : array
+        })
+    }
+    //----sliderMenu End----
+    
     render(){
-        console.log(this.props);
         return (
             <div>
                 <Header />
+                <SlideMenu 
+                    menuOpenKey = {this.state.menuOpenKey}
+                    menuSelectedKey = {this.state.menuSelectedKey}
+                    menuClickHandle = {this._menuClickHandle}
+                    menuOpenHandle = {this._menuOpenHandle}
+                />
             </div> 
         )
     }

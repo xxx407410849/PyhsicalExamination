@@ -7,6 +7,9 @@ import store from './src/reducer/store.jsx';
 // import App from './public/reducer/TodoListReducer.jsx';
 import asnycLoad from './src/common/asnycLoad.jsx';
 import Immutable from 'immutable';
+require('velocity-animate');
+require('velocity-animate/velocity.ui');
+
 
 // import './public/less/index.less';
 

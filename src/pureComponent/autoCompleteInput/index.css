@@ -2,6 +2,11 @@
   position: relative;
   transform: translateY(-50%);
   top: 50%;
+  width: 40%;
+  transition: 0.3s all ease-in-out;
+}
+.autoInput.selected {
+  width: 70%;
 }
 .autoInput-item {
   margin-left: 10px;
