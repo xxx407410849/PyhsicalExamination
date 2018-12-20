@@ -4,6 +4,9 @@ import Header from '../component/header/index.jsx';
 import React from 'react';
 import {connect} from 'react-redux'
 import SlideMenu from '../component/menu/index.jsx';
+import ajax from '../common/fetch.jsx';
+import { Host } from '../config/host.jsx';
+import Utils from '../common/utils.jsx';
 class Home extends React.Component{
     constructor(props){
         super(props);
@@ -13,7 +16,7 @@ class Home extends React.Component{
         }
     }
     componentDidMount(){
-
+        Utils.authorCheck("lancelot",12345678);
     }
     componentWillUnmount(){
 
@@ -40,6 +43,7 @@ class Home extends React.Component{
     //----sliderMenu End----
     
     render(){
+        console.log(this.props);
         return (
             <div>
                 <Header />

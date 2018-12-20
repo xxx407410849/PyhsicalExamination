@@ -1,12 +1,13 @@
 //----页面和路由的根文件----
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {Route , Link ,BrowserRouter, Switch} from 'react-router-dom';
+import {Route , Link ,BrowserRouter, Switch , Router ,Redirect} from 'react-router-dom';
 import {Provider} from 'react-redux';
 import store from './src/reducer/store.jsx';
 // import App from './public/reducer/TodoListReducer.jsx';
 import asnycLoad from './src/common/asnycLoad.jsx';
 import Immutable from 'immutable';
+import Utils from './src/common/utils.jsx';
 require('velocity-animate');
 require('velocity-animate/velocity.ui');
 
@@ -41,7 +42,8 @@ const unsubscribe = store.subscribe(()=>{
 
 // const Appcomponent = Loadable({
 //     loader: () => import('./public/entry/TodoListAppEntry.jsx'),
-//     loading: MyLoadingComponent
+//     loading: MyLoaimport Utils from './src/common/utils';
+
 // })
 
 class AppReduxEntry extends React.Component{
@@ -83,7 +85,7 @@ class Demolist extends React.Component{
             <div>
                 <h1>Demolist</h1>
             <ul>
-                <li><Link to = "/code">code</Link></li>
+                <li><Link to = "/data">code</Link></li>
                 <li><Link to = "/checkbox">checkbox</Link></li>
                 <li><Link to = "/emotionList">Emotion</Link></li>
                 <li><Link to = "/emotionListRedux">Emotion-redux</Link></li>
@@ -93,11 +95,38 @@ class Demolist extends React.Component{
     }
 }
 
-
+const requireAuth = () => {
+    
+}
+const PrivateRoute = ({ component : Component , ...rest}) => {
+    return (
+        <Route
+            {...rest}
+            render = {props => 
+                true ? (
+                    <Component {...props}/>
+                ) : (
+                    <Redirect 
+                        to = {{
+                            pathname : '/login',
+                            state: {from: props.location}
+                        }}
+                    />
+                )
+            }
+        >
+        </Route>
+    )
+}
 ReactDOM.render(
     <BrowserRouter basename = "/dist/view/index.html">
         <Provider store = {store}>
-            <Route path = "/" component = {Home} />
+        <div>
+            <Route exact path = "/" render = {()=>{
+                return <Redirect to = "/data"/>
+            }}/>
+            <PrivateRoute path = "/data" component = {Home}/>
+        </div>
         </Provider>
         {/* <Route path = "/emotionList" component = {Breadcrumb} />
         <Switch>  
