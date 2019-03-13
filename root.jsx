@@ -1,26 +1,16 @@
 //----页面和路由的根文件----
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {Route , Link ,BrowserRouter, Switch , Router ,Redirect} from 'react-router-dom';
 import {Provider} from 'react-redux';
-import store from './src/reducer/store.jsx';
 // import App from './public/reducer/TodoListReducer.jsx';
-import asnycLoad from './src/common/asnycLoad.jsx';
 import Immutable from 'immutable';
 import Utils from './src/common/utils.jsx';
+import router from './router.jsx';
 require('velocity-animate');
 require('velocity-animate/velocity.ui');
 
 
 // import './public/less/index.less';
-
-//-----页面注册----
-const Home = asnycLoad(() => import('./src/page/index.jsx'));
-
-//redux监控
-const unsubscribe = store.subscribe(()=>{
-    console.log(store.getState().get('Items'))
-})
 
 // const Codectncomponent = Loadable({
 //     loader: () => import('./public/js/passwordModel.jsx'),
@@ -95,46 +85,7 @@ class Demolist extends React.Component{
     }
 }
 
-const requireAuth = () => {
-    
-}
-const PrivateRoute = ({ component : Component , ...rest}) => {
-    return (
-        <Route
-            {...rest}
-            render = {props => 
-                true ? (
-                    <Component {...props}/>
-                ) : (
-                    <Redirect 
-                        to = {{
-                            pathname : '/login',
-                            state: {from: props.location}
-                        }}
-                    />
-                )
-            }
-        >
-        </Route>
-    )
-}
 ReactDOM.render(
-    <BrowserRouter basename = "/dist/view/index.html">
-        <Provider store = {store}>
-        <div>
-            <Route exact path = "/" render = {()=>{
-                return <Redirect to = "/data"/>
-            }}/>
-            <PrivateRoute path = "/data" component = {Home}/>
-        </div>
-        </Provider>
-        {/* <Route path = "/emotionList" component = {Breadcrumb} />
-        <Switch>  
-            <Route exact path = "/code" component = {Codectncomponent}/>
-            <Route exact path = "/checkbox" component = {Checkboxcomponent}/>
-            <Route exact path = "/emotionList" component = {Todolistctncomponent} />
-            <Route exact path = "/emotionListRedux" component = {AppReduxEntry} />
-        </Switch> */}
-    </BrowserRouter>,
+    router,
     document.getElementById('reactRoot')
 )

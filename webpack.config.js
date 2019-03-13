@@ -6,14 +6,14 @@ const webpack = require('webpack');
 
 let WEBPACK_ENV = process.env.WEBPACK_ENV || 'dev';
 const extractCSS = new ExtractTextPlugin({
-    filename: 'stylesheets/[name].css',
+    filename: '[name].css',
     disable: process.env.WEBPACK_ENV === "dev",
-    ignoreOrder: true
+    // ignoreOrder: true
 });
 const extractLess = new ExtractTextPlugin({
-    filename: "stylesheets/[name].css",
+    filename: "[name].css",
     disable: process.env.WEBPACK_ENV === "dev",
-    ignoreOrder: true
+    // ignoreOrder: true
 });
 module.exports = {
     mode: "development",
@@ -24,9 +24,9 @@ module.exports = {
     },
     output: {
         path: path.resolve(__dirname, 'dist'),
-        filename: "js/[name].js",
-        chunkFilename: 'js/[name].chunk.js',
-        publicPath: '/dist/'
+        filename: "[name].js",
+        chunkFilename: '[name].chunk.js',
+        // publicPath: '/dist/'
     },
     module: {
         rules: [
@@ -98,7 +98,7 @@ module.exports = {
         extractLess,
         new CleanWebpackPlugin(['dist']),
         new HtmlWebpackPlugin({
-            filename: 'view/index.html',
+            filename: 'index.html',
             template: path.resolve(__dirname, './index.html')
         }),
         ()=>{
