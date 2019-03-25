@@ -11,6 +11,7 @@ const unsubscribe = store.subscribe(()=>{
 
 //-----页面注册----
 const Home = asnycLoad(() => import('./src/page/index.jsx'));
+const Login = asnycLoad(() => import('./src/page/login/index'));
 
 const requireAuth = () => {
     
@@ -25,7 +26,7 @@ const PrivateRoute = ({ component : Component , ...rest}) => {
                 ) : (
                     <Redirect 
                         to = {{
-                            pathname : '/login',
+                            pathname : '/',
                             state: {from: props.location}
                         }}
                     />
@@ -38,10 +39,8 @@ const PrivateRoute = ({ component : Component , ...rest}) => {
 export default (
     <BrowserRouter>
         <Provider store = {store}>
-        <div>
-            <Route exact path = "/" render = {()=>{
-                return <Redirect to = "/data"/>
-            }}/>
+        <div style = {{"height" : "100%" , "width" : "100%"}}>
+            <Route exact path = "/" component = {Login}/>
             <PrivateRoute path = "/data" component = {Home}/>
         </div>
         </Provider>

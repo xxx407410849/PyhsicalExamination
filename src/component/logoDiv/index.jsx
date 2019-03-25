@@ -21,10 +21,10 @@ class LogoDiv extends React.PureComponent{
                 <p className = "logo-text">lANcElOT</p>
                 <div className = "logo-btnbar">
                     <LogoBtn extraClass = "btn-github" onTap = {this.gitBtnClickHandle}>
-                        <span><Icon type="github" /><span>github</span></span>
+                        <span><Icon type="github" /><span>  github</span></span>
                     </LogoBtn>
                     <LogoBtn extraClass = "btn-blog" onTap = {this.blogBtnClickHandle}>
-                        <span><Icon type="chrome" />lanceBlog</span>
+                        <span><Icon type="chrome" />  lanceBlog</span>
                     </LogoBtn>
                 </div>
             </div>

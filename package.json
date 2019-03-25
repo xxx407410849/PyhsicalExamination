@@ -32,6 +32,7 @@
     "babel-loader": "^8.0.4",
     "babel-plugin-import": "^1.11.0",
     "clean-webpack-plugin": "^0.1.19",
+    "connect-history-api-fallback": "^1.6.0",
     "css-loader": "^1.0.0",
     "ejs-loader": "^0.3.1",
     "extract-text-webpack-plugin": "^4.0.0-beta.0",
@@ -47,9 +48,9 @@
     "url-loader": "^1.1.0",
     "webpack": "^4.27.1",
     "webpack-cli": "^3.1.2",
+    "webpack-dev-middleware": "^3.6.1",
     "webpack-dev-server": "^3.1.10",
-    "connect-history-api-fallback": "^1.6.0",
-    "webpack-dev-middleware": "^3.6.1"
+    "webpack-hot-middleware": "^2.24.3"
   },
   "dependencies": {
     "@babel/runtime": "^7.2.0",

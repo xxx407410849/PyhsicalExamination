@@ -8,7 +8,7 @@ class LogoBtn extends React.PureComponent {
     }
     render() {
         let { extraClass, onTap} = this.props;
-        let cls = "logo-btn " + extraClass;
+        let cls ="logo-btn " + extraClass;
         return(
             <div
                 className={cls}

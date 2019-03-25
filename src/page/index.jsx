@@ -7,6 +7,8 @@ import SlideMenu from '../component/menu/index.jsx';
 import ajax from '../common/fetch.jsx';
 import { Host } from '../config/host.jsx';
 import Utils from '../common/utils.jsx';
+import Body from '../component/body/index.jsx';
+import CenterDiv from '../pureComponent/centerDiv/index';
 class Home extends React.Component{
     constructor(props){
         super(props);
@@ -45,14 +47,20 @@ class Home extends React.Component{
     render(){
         console.log(this.props);
         return (
-            <div>
+            <div style = {{"height" : "100%" , "width" : "100%"}}>
                 <Header />
-                <SlideMenu 
-                    menuOpenKey = {this.state.menuOpenKey}
-                    menuSelectedKey = {this.state.menuSelectedKey}
-                    menuClickHandle = {this._menuClickHandle}
-                    menuOpenHandle = {this._menuOpenHandle}
-                />
+                <div className = "slide-body-ctn">
+                    <CenterDiv extraClass = "slide-body-group">
+                        <SlideMenu 
+                            menuOpenKey = {this.state.menuOpenKey}
+                            menuSelectedKey = {this.state.menuSelectedKey}
+                            menuClickHandle = {this._menuClickHandle}
+                            menuOpenHandle = {this._menuOpenHandle}
+                        />
+                        <Body />
+                    </CenterDiv>
+                </div>
+
             </div> 
         )
     }

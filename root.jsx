@@ -9,7 +9,11 @@ import router from './router.jsx';
 require('velocity-animate');
 require('velocity-animate/velocity.ui');
 
-
+import './root.less';
+//热更新配置
+if(module.hot){
+    module.hot.accept();
+}
 // import './public/less/index.less';
 
 // const Codectncomponent = Loadable({

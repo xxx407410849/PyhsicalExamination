@@ -33,57 +33,54 @@ class Header extends React.Component {
             <nav className="header">
                 <Row
                     type="flex"
-                    justify="space-between"
+                    justify="start"
+                    align="bottom"
                     className="h-row"
+                    style = {{"height" : "100%"}}
                 >
-                    <Col lg={7} md={12} sm={0} xs={0}>
                         <div className="h-bg run-bg">
                         </div>
-                    </Col>
-                    <Col lg={5} sm={0} xs={0}>
-                        <AutoCompleteInput
-                            placeholder="全站搜索"
-                            searchHandle={this._searchHandle}
-                            searchMentionHandle={this._searchMentionHandle}
-                            dataSource={this.state.mentionData}
-                            extraClass="h-autoInput"
-                        />
-                    </Col>
-                    <Col lg={9} md={11} sm={24} style={{ overflow: "hidden" }}>
-                        <Menu
-                            mode="horizontal"
-                            defaultSelectedKeys={['phyexmData']}
-                            style={{ lineHeight: "64px" }}
-                            id="menu-right"
-                        >
-                            <Menu.Item key="authority">
-                                <Link to="/authority">权限管理</Link>
-                            </Menu.Item>
-                            <Menu.Item key="phyexmData">
-                                <Link to="/phyexmData">数据处理</Link>
-                            </Menu.Item>
-                            <Menu.Item key="dataVisual">
-                                <Link to="/dataVisual">数据分析</Link>
-                            </Menu.Item>
-                            <Menu.Item>
-                                <Link to="/explain">作品介绍</Link>
-                            </Menu.Item>
-                        </Menu>
-                    </Col>
-                    <Col lg={2} sm={0} xs={0}>
+                        <div className="h-searchctn">
+                            <AutoCompleteInput
+                                placeholder="全站搜索"
+                                searchHandle={this._searchHandle}
+                                searchMentionHandle={this._searchMentionHandle}
+                                dataSource={this.state.mentionData}
+                                extraClass="h-autoInput"
+                            />
+                        </div>
+                        <div className = "h-rightctn">
+                            <Menu
+                                mode="horizontal"
+                                defaultSelectedKeys={['phyexmData']}
+                                style={{ lineHeight: "64px" , "justifySelf" : "end"}}
+                                id="menu-right"
+                            >
+                                <Menu.Item key="authority">
+                                    <Link to="/authority">权限管理</Link>
+                                </Menu.Item>
+                                <Menu.Item key="phyexmData">
+                                    <Link to="/phyexmData">数据处理</Link>
+                                </Menu.Item>
+                                <Menu.Item key="dataVisual">
+                                    <Link to="/dataVisual">数据分析</Link>
+                                </Menu.Item>
+                                <Menu.Item>
+                                    <Link to="/explain">作品介绍</Link>
+                                </Menu.Item>
+                            </Menu>
 
-                        <VelocityTransitionGroup
-                            enter={{ animation: velocity.flipBounceXIn, duration: 1000 }}
-                            runOnMount={true}
-                        >
-                            <div className="h-welcome">
-                                <span>欢迎你</span>
-                                <span className="name">{this.props.authorName}李陈</span>
-                            </div>
-                        </VelocityTransitionGroup>
-                    </Col>
+                            <VelocityTransitionGroup
+                                enter={{ animation: velocity.flipBounceXIn, duration: 1000 }}
+                                runOnMount={true}
+                            >
+                                <div className="h-welcome">
+                                    <span>欢迎你</span>
+                                    <span className="name">{this.props.authorName}李陈</span>
+                                </div>
+                            </VelocityTransitionGroup>
+                        </div>
                 </Row>
-
             </nav>
         )
     }

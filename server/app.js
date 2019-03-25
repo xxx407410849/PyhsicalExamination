@@ -28,13 +28,14 @@ app.use('/',connectHistoryFallBack());
 //app.use(express.static(path.join(__dirname,'..','PyhsicalExamination','dist')));
 console.log(path.join(__dirname,'..','dist'));
 
-//热更新
+//热更新配置
 if (process.env.NODE_ENV !== 'production') {
     var webpack = require('webpack');
     var webpackConfig = require('../webpack.config.js');
     var webpackCompiled = webpack(webpackConfig);
     // 配置运行时打包
     var webpackDevMiddleware = require('webpack-dev-middleware');
+
     app.use(webpackDevMiddleware(webpackCompiled, {
       publicPath: "/",
       stats: {colors: true},
@@ -44,6 +45,9 @@ if (process.env.NODE_ENV !== 'production') {
           poll: true
       },
     }));
+    //刷新
+    var webpackHotMiddleware = require('webpack-hot-middleware');
+    app.use(webpackHotMiddleware(webpackCompiled));
 }
 const server = app.listen(config.port, () => {
     console.log("start");

@@ -103,7 +103,10 @@ module.exports = {
         }),
         ()=>{
             console.log(WEBPACK_ENV);
-            if(WEBPACK_ENV === 'dev') new webpack.HotModuleReplacementPlugin()
+            if(WEBPACK_ENV === 'dev') {
+                new webpack.HotModuleReplacementPlugin();
+                new webpack.NoEmitOnErrorsPlugin()
+            }
         }
     ]
 }
