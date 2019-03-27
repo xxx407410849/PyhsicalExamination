@@ -10,7 +10,7 @@ var config = require('./src/common/config');
 //注册router
 var indexRouter = require('./src/router/indexRouter/index');
 var authorRouter = require('./src/router/authorRouter/index');
-
+var loginRouter = require('./src/router/loginRouter/index');
 //配置
 const app = express();
 app.use(logger('dev'));
@@ -24,10 +24,10 @@ app.use(session({
     secret: config.cookieSecret,
     key: config.db,
     store: new MongoStore({
-        url: 'mongodb://localhost/phyexam'
+        url: config.mongodb
     }),
     cookie: {
-        maxAge: 600000
+        maxAge: 60 * 1000 * 30
     },
     resave: false,
     saveUninitialized: true
@@ -47,6 +47,7 @@ app.all('/*', (req, res, next) => {
     }
 });
 app.use('/author', authorRouter);
+app.use('/login',loginRouter);
 app.get('/', (req, res) => {
     res.send("hello world");
 

@@ -6,10 +6,11 @@ import {Provider} from 'react-redux';
 
 //redux监控
 const unsubscribe = store.subscribe(()=>{
-    console.log(store.getState().get('Items'))
+    console.log(store.getState())
 })
 
 //-----页面注册----
+const Global = asnycLoad(() => import('./src/global/index.js'));
 const Home = asnycLoad(() => import('./src/page/index.jsx'));
 const Login = asnycLoad(() => import('./src/page/login/index'));
 
@@ -40,6 +41,7 @@ export default (
     <BrowserRouter>
         <Provider store = {store}>
         <div style = {{"height" : "100%" , "width" : "100%"}}>
+            <Route path = "/" component = {Global}/>
             <Route exact path = "/" component = {Login}/>
             <PrivateRoute path = "/data" component = {Home}/>
         </div>

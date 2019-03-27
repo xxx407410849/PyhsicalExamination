@@ -8,6 +8,9 @@ export const Host = {
     },
     //接口
     hosts : {
-        authorCheck : "/author/check"
+        //权限验证，session验证是否登陆
+        authorCheck : "/author",
+        //登陆验证
+        login : "/login"
     }
 }

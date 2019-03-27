@@ -57,7 +57,7 @@ export default (options) => {
         };
         xhr.onloadend = () => {
             if (xhr.status >= 200 && xhr.status < 300 || xhr.status === 304) {
-                resolve(xhr);
+                resolve(JSON.parse(xhr.response));
             } else {
                 reject(new Error({
                     errorType: 'status_error',
@@ -66,7 +66,6 @@ export default (options) => {
             }
         };
         try {
-            console.log(JSON.stringify(options.data));
             xhr.send(JSON.stringify(options.data));
         } catch (e) {
             reject({
