@@ -6,6 +6,7 @@ import Divider from '../../pureComponent/divider/index.jsx';
 import AutoCompleteInput from '../../pureComponent/autoCompleteInput/index.jsx';
 import { VelocityTransitionGroup, velocityHelpers } from 'velocity-react';
 import { velocity } from '../../config/velocityAnimateMap.jsx';
+import { connect } from 'react-redux';
 class Header extends React.Component {
     constructor(props) {
         super(props);
@@ -29,6 +30,9 @@ class Header extends React.Component {
     };
 
     render() {
+        let {home , login} = this.props;
+        let userName = home.userName || login.loginUser;
+        let userType = home.type || login.userType;
         return (
             <nav className="header">
                 <Row
@@ -60,7 +64,7 @@ class Header extends React.Component {
                                     <Link to="/authority">权限管理</Link>
                                 </Menu.Item>
                                 <Menu.Item key="phyexmData">
-                                    <Link to="/phyexmData">数据处理</Link>
+                                    <Link to="/phyexmData">基础数据设置</Link>
                                 </Menu.Item>
                                 <Menu.Item key="dataVisual">
                                     <Link to="/dataVisual">数据分析</Link>
@@ -76,7 +80,7 @@ class Header extends React.Component {
                             >
                                 <div className="h-welcome">
                                     <span>欢迎你</span>
-                                    <span className="name">{this.props.authorName}李陈</span>
+                                    <span className="name">{userName}</span>
                                 </div>
                             </VelocityTransitionGroup>
                         </div>
@@ -85,5 +89,10 @@ class Header extends React.Component {
         )
     }
 }
-
-export default Header;
+function select(state) {
+    return {
+        login: state.login,
+        home: state.home
+    };
+}
+export default connect(select)(Header);

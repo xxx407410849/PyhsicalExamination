@@ -1,8 +1,7 @@
 import React from 'react';
 import { Menu, Icon } from 'antd';
 import './index.less';
-import Divider from '../../pureComponent/divider/index.jsx';
-import LogoDiv from '../logoDiv/index.jsx';
+import Divider from '../../../../pureComponent/divider/index.jsx';
 
 const SubMenu = Menu.SubMenu;
 const MenuItemGroup = Menu.ItemGroup;
@@ -53,58 +52,38 @@ class SlideMenu extends React.Component {
                     onOpenChange={this.props.menuOpenHandle}
                 >
                     <Menu.Item
-                        key="数值筛选设置"
+                        key="examDate"
                     >
-                        {this.renderSubTitle("setting", "数值筛选设置", "menu-sub-title-setting")}
+                        {this.renderSubTitle("setting", "体能考核时间设置", "menu-sub-title-dateset")}
                     </Menu.Item>
                     <Menu.Item
-                        key="查询数据"
+                        key="subInfo"
                     >
-                        {this.renderSubTitle("eye", "查询数据", "menu-sub-title-search")}
+                        {this.renderSubTitle("calculator", "体能考核科目信息设置", "menu-sub-title-subset")}
                     </Menu.Item>
                     <SubMenu
-                        key="Insert"
-                        title={this.renderSubTitle("database", "批量录入数据", "menu-sub-title-insert")}
+                        key="personSetting"
+                        title={this.renderSubTitle("database", "考核相关人员设置", "menu-sub-title-personset")}
                     >
                         <Menu.Item
-                            key="ageInsert"
+                            key="teacherSet"
                         >
-                            {this.renderSubTitle("team", "按年级录入", "menu-sub-title-age")}
+                            {this.renderSubTitle("reconciliation", "考官信息设置", "menu-sub-title-teacherset")}
                         </Menu.Item>
                         <Menu.Item
                             key="classInsert"
                         >
-                            {this.renderSubTitle("user", "按班级录入", "menu-sub-title-class")}
-                        </Menu.Item>
-                        <Menu.Item
-                            key="majorInsert"
-                        >
-                            {this.renderSubTitle("reconciliation", "按专业录入", "menu-sub-title-product")}
-                        </Menu.Item>
-                        <Menu.Item
-                            key="projectInsert"
-                        >
-                            {this.renderSubTitle("solution", "按项目录入", "menu-sub-title-project")}
+                            {this.renderSubTitle("solution", "考生信息设置", "menu-sub-title-studentset")}
                         </Menu.Item>
                     </SubMenu>
-                    <SubMenu
-                        key="change"
-                        title={this.renderSubTitle("file-text", "数据变更", "menu-sub-title-change")}
+                    <Menu.Item
+                        key="infoCheck"
                     >
-                        <Menu.Item
-                            key="changeObject"
-                        >
-                            {this.renderSubTitle("usergroup-add", "变更项目/班级/年级/专业", "menu-sub-title-changeObject")}
-                        </Menu.Item>
-                        <Menu.Item
-                            key="changeItem"
-                        >
-                            {this.renderSubTitle("user-add", "变更体能数据/学生数据", "menu-sub-title-changeItem")}
-                        </Menu.Item>
-                    </SubMenu>
+                        {this.renderSubTitle("file-text", "体能考核名单信息总览", "menu-sub-title-infoCheck")}
+                    </Menu.Item>
                 </Menu>
                 <Divider extraClass=" sliderMenu-divider" />
-                <LogoDiv />
+                {/* <LogoDiv /> */}
             </div>
         )
     }

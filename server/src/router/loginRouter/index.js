@@ -39,7 +39,6 @@ Router.post('/', (req, res, next) => {
     //     console.log(data);
     // });
     User.findOne({ "username": userName, "type": type }, (err, data) => {
-        console.log(data);
         var hmc = crypto.createHash('sha256', config.hmcKeyGen);
         passWord = hmc.update(passWord).digest('hex');
         if (err) {
@@ -91,6 +90,24 @@ Router.post('/', (req, res, next) => {
     });
 
 });
+Router.all('/out',(req,res,next)=>{
+    req.session.userData = null;
+    if(req.session.userData){
+        return res.send({
+            errorCode: 1,
+            errMsg: "未清除登陆记录",
+            status: 200,
+            ret: false
+        })
+    }else{
+        return res.send({
+            errorCode: 0,
+            errMsg: "",
+            status: 200,
+            ret: true
+        })
+    }
+})
 
 module.exports = Router;
 

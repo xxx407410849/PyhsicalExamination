@@ -1,11 +1,11 @@
 import {combineReducers} from 'redux'
 
-import home from '../page/reducer/index.jsx';
+import basis from '../page/basis/reducer/index';
 import login from '../page/login/reducer/index';
-import global from '../global/reducer/index'
+import home from '../page/reducer/index.jsx';
 
 export default combineReducers({
-    home,
+    basis,
     login,
-    global
+    home
 })

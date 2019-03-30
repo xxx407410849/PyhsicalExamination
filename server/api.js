@@ -11,6 +11,8 @@ var config = require('./src/common/config');
 var indexRouter = require('./src/router/indexRouter/index');
 var authorRouter = require('./src/router/authorRouter/index');
 var loginRouter = require('./src/router/loginRouter/index');
+var changeCodeRouter = require('./src/router/changeCodeRouter/index');
+var examRouter = require('./src/router/examRouter/index');
 //配置
 const app = express();
 app.use(logger('dev'));
@@ -48,6 +50,8 @@ app.all('/*', (req, res, next) => {
 });
 app.use('/author', authorRouter);
 app.use('/login',loginRouter);
+app.use('/changeCode',changeCodeRouter);
+app.use('/exam',examRouter);
 app.get('/', (req, res) => {
     res.send("hello world");
 

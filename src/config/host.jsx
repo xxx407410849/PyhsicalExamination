@@ -11,6 +11,10 @@ export const Host = {
         //权限验证，session验证是否登陆
         authorCheck : "/author",
         //登陆验证
-        login : "/login"
+        login : "/login",
+        //登出
+        loginout : "/login/out",
+        //修改密码
+        changeCode : "/changeCode"
     }
 }

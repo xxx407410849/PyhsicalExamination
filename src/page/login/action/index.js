@@ -1,5 +1,11 @@
 export const LOGIN_FAIL = "LOGIN_FAIL";
 export const LOGIN_SUC = "LOGIN_SUC";
+export const RELOGIN = 'RELOGIN';
+export const LOGINOUT_SUC = "LOGINOUT_SUC";
+export const LOGINOUT_FAIL = "LOGINOUT_FAIL";
+export const CHANGECODE_FAIL = "CHANGECODE_FAIL";
+export const CHANGECODE_SUC = "CHANGECODE_SUC";
+
 
 import fetch from '../../../common/fetch.jsx';
 import {
@@ -17,7 +23,6 @@ export function login(userName, password, type) {
         }
         fetch(options)
             .then((data) => {
-                console.log(data,data.ret);
                 switch (data.ret) {
                     case true:
                         return dispatch(loginSuc(data));
@@ -29,7 +34,6 @@ export function login(userName, password, type) {
                 }
             })
             .catch((error) => {
-                console.log(error);
                 return dispatch(loginFail());
             })
     }
@@ -54,7 +58,78 @@ const loginFail = (data) => {
         data: data
     }
 }
-
+export function relogin(userName, type) {
+    return {
+        type: RELOGIN,
+        data: {
+            userName: userName,
+            type: type
+        }
+    }
+}
 export function loginout() {
-    
+    return dispatch => {
+        let options = {
+            url: Host.prodHost.nodeHost + Host.hosts.loginout,
+            method: "GET"
+        }
+        fetch(options).then((data) => {
+                if (data.ret) {
+                    dispatch(loginoutSuc());
+                } else {
+                    dispatch(loginoutFail());
+                }
+            })
+            .catch(() => {
+                dispatch(loginoutFail());
+            })
+    }
+}
+const loginoutSuc = () => {
+    return {
+        type: LOGINOUT_SUC
+    }
+}
+const loginoutFail = () => {
+    return {
+        type: LOGINOUT_FAIL
+    }
+}
+export function changeCode(userName, type, passWord, passWordF, passWordS) {
+    return dispatch => {
+        let options = {
+            url: Host.prodHost.nodeHost + Host.hosts.changeCode,
+            data: {
+                userName: userName,
+                type: type,
+                passWord: passWord,
+                passWordF: passWordF,
+                passWordS: passWordS
+            }
+        }
+        fetch(options).then((data) => {
+                if (data.ret) {
+                    dispatch(changeCodeSuc());
+                } else {
+                    dispatch(changeCodeFail(data.errMsg));
+                }
+            })
+            .catch((error) => {
+                dispatch(changeCodeFail())
+            })
+    }
+}
+const changeCodeFail = (msg) => {
+    return {
+        type : CHANGECODE_FAIL,
+        data : {
+            errorMsg : msg
+        }
+    }
+}
+
+const changeCodeSuc = () => {
+    return {
+        type : CHANGECODE_SUC
+    }
 }

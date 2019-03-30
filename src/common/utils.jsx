@@ -2,23 +2,20 @@ import fetch from './fetch.jsx';
 import { Host } from '../config/host.jsx'
 import md5 from 'js-md5'
 export default {
-    //权限控制
-    authorCheck : (usrName,code) => {
-        console.log(code);
-        md5("lancelot");
-        let hash = md5.create();
-        let options = {
-            url : Host.prodHost.nodeHost + Host.hosts.authorCheck,
-            data : {
-                usrName : usrName,
-                code : hash.base64(hash.base64(String(code)))
+    //url解析
+    urlParse : (setUrl) => {
+        let url = location.search;
+        if(setUrl)url = setUrl.split('?')[1];
+        let parseArray = {};
+        url.replace("?","").split("&").forEach((data)=>{
+            let key = data.split("=")[0];
+            let value = data.split("=")[1];
+            if(parseArray[key]){
+                parseArray[key] = [...parseArray[key],value];
+            }else{
+                parseArray[key] = value;
             }
-        }
-        fetch(options).then((data)=>{
-            console.log(data);
-        })
-        .catch((err)=>{
-            console.log("error",err);
-        })
+        });
+        return parseArray;
     }
 }
