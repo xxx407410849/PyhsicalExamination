@@ -52,7 +52,18 @@ class Login extends React.Component {
         }
     }
     componentDidMount() {
+        console.log(this.props);
         // console.log(this.props.location.state.from);
+        if (this.props.login.loginUser) {
+            message.warning("您已登录，若需切换用户请先注销");
+            if(this.props.login.userType === "admin"){
+                this.props.history.replace('/basis');
+            }else if(this.props.login.userType === "teacher"){
+                this.props.history.replace('/score');
+            }else{
+                this.props.history.replace('/dataVisual');
+            }
+        }
         if (this.props.home.userName != "" && !this.changeCodeStatus) {
             this.props.dispatch(relogin(this.props.home.userName, this.props.home.type));
 
@@ -80,11 +91,12 @@ class Login extends React.Component {
                 message.success("登录成功，3秒后跳转页面");
                 this.timer = setTimeout(()=>{
                     if(nextProps.login.userType === "admin"){
-                        location.pathname = '/basis';
+                        //location.pathname = '/basis';
+                        this.props.history.push('/basis');
                     }else if(nextProps.login.userType === "teacher"){
-                        location.pathname = '/score';
+                        this.props.history.push('/score');
                     }else{
-                        location.pathname = '/dataVisual';
+                        this.props.history.push('/dataVisual');
                     }
                 },3000);
             }else{

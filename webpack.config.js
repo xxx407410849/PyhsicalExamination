@@ -7,21 +7,19 @@ const webpack = require('webpack');
 let WEBPACK_ENV = process.env.WEBPACK_ENV || 'dev';
 const extractCSS = new ExtractTextPlugin({
     filename: '[name].css',
-    disable: process.env.WEBPACK_ENV === "dev",
+    disable: true,
+    allChunks: true
     // ignoreOrder: true
 });
 const extractLess = new ExtractTextPlugin({
     filename: "[name].css",
-    disable: process.env.WEBPACK_ENV === "dev",
+    disable: true,
+    allChunks: true
     // ignoreOrder: true
 });
 module.exports = {
     mode: "development",
     entry: path.resolve(__dirname, './root.jsx'),
-    devtool: 'inline-source-map',
-    devServer: {
-        port: 8086
-    },
     output: {
         path: path.resolve(__dirname, 'dist'),
         filename: "[name].js",
@@ -100,13 +98,13 @@ module.exports = {
         new HtmlWebpackPlugin({
             filename: 'index.html',
             template: path.resolve(__dirname, './index.html')
-        }),
-        ()=>{
-            console.log(WEBPACK_ENV);
-            if(WEBPACK_ENV === 'dev') {
-                new webpack.HotModuleReplacementPlugin();
-                new webpack.NoEmitOnErrorsPlugin()
-            }
-        }
+        })
+        // ()=>{
+        //     console.log(WEBPACK_ENV);
+        //     if(WEBPACK_ENV === 'dev') {
+        //         new webpack.HotModuleReplacementPlugin();
+        //         new webpack.NoEmitOnErrorsPlugin()
+        //     }
+        // }
     ]
 }

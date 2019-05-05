@@ -194,7 +194,7 @@ class Score extends React.Component {
         }];
         return (
             <div style={{ "height": "100%", "width": "100%" }}>
-                <Header />
+                <Header history = {this.props.history}/>
                 <CenterDiv extraClass="sc-ctn" vertical={true}>
                     <div className="sc-header">
                         <Popover title={<span>成绩生成与导入规则：</span>} content={selectTips}>

@@ -9,6 +9,7 @@ const MyLoadingComponent = ({ isLoading, error }) => {
         </Spin>;
     }
     else if (error) {
+        console.log(error);
         return <Alert message = "Sorry,This Page has missed"
                       type = "Error"
                />;

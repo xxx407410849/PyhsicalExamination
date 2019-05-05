@@ -1,6 +1,6 @@
 import React from 'react';
 import { Menu, Row, Col, Button, message } from 'antd';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import './index.less';
 import Divider from '../../pureComponent/divider/index.jsx';
 import AutoCompleteInput from '../../pureComponent/autoCompleteInput/index.jsx';
@@ -9,6 +9,7 @@ import { velocity } from '../../config/velocityAnimateMap.jsx';
 import { connect } from 'react-redux';
 import fetch from '../../common/fetch.jsx';
 import { Host } from '../../config/host.jsx';
+import { loginout } from '../../page/login/action';
 class Header extends React.Component {
     constructor(props) {
         super(props);
@@ -31,22 +32,11 @@ class Header extends React.Component {
         console.log("search", value, option);
     };
     loginoutHandle = () => {
-        let options = {
-            url : Host.prodHost.nodeHost + Host.hosts.loginout,
-            method : "GET"
-        };
-        fetch(options).then((data)=>{
-            if(data.ret){
-                message.success("已退出登录");
-                location.pathname = "/";
-            }else{
-                message.error("未退出登录");
-            }
-        })
-        .catch((err)=>{
-            console.log(err);
-            message.error("网络连接失败,退出账号失败");
-        })
+        this.props.dispatch(loginout(()=>{
+            setTimeout(()=>{
+                this.props.history.push('/');
+            },200);
+        }));
     };
     render() {
         let {home , login} = this.props;

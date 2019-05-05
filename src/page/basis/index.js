@@ -45,7 +45,7 @@ class Basis extends React.Component{
     render(){
         return (
             <div style = {{"height" : "100%" , "width" : "100%"}}>
-                <Header />
+                <Header history = {this.props.history}/>
                 <div className = "slide-body-ctn">
                     <CenterDiv extraClass = "slide-body-group">
                         <SlideMenu 

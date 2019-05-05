@@ -1,12 +1,16 @@
 import React from 'react';
-import { Route, Link, BrowserRouter, Switch, Router, Redirect } from 'react-router-dom';
+import { Route, Link, BrowserRouter, Switch, Router, Redirect,HashRouter } from 'react-router-dom';
 import store from './src/reducer/store.jsx';
 import asnycLoad from './src/common/asnycLoad.jsx';
 import { Provider, connect } from 'react-redux';
 import { Host } from './src/config/host.jsx';
 import fetch from './src/common/fetch.jsx';
 import { message } from 'antd';
-
+// import Home from './src/page/index.jsx';
+// import Basis from './src/page/basis/index';
+// import Login from './src/page/login/index';
+// import Score from './src/page/score/index';
+// import ErrorPage from './src/page/error/index';
 //redux监控
 const unsubscribe = store.subscribe(() => {
     console.log(store.getState());
@@ -19,7 +23,6 @@ const Basis = asnycLoad(() => import('./src/page/basis/index'));
 const Login = asnycLoad(() => import('./src/page/login/index'));
 const Score = asnycLoad(() => import('./src/page/score/index'));
 const ErrorPage = asnycLoad(() => import('./src/page/error/index'));
-// const Login = import('./src/page/login/index');
 // import Login from './src/page/login/index';
 
 class PrivateRoute extends React.Component {
@@ -136,7 +139,7 @@ PrivateRoute = connect(select, null, null, { pure: false })(PrivateRoute);
 //     )
 // }
 export default (
-    <BrowserRouter>
+    <HashRouter>
         <Provider store={store}>
             <div style={{ "height": "100%", "width": "100%" }}>
                 <Route path="/" component={Home} />
@@ -153,5 +156,5 @@ export default (
             <Route exact path = "/emotionList" component = {Todolistctncomponent} />
             <Route exact path = "/emotionListRedux" component = {AppReduxEntry} />
         </Switch> */}
-    </BrowserRouter>
-)
+    </HashRouter>
+) 

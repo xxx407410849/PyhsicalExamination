@@ -75,7 +75,7 @@ export function relogin(userName, type) {
         }
     }
 }
-export function loginout() {
+export function loginout(callBack) {
     return dispatch => {
         let options = {
             url: Host.prodHost.nodeHost + Host.hosts.loginout,
@@ -84,12 +84,16 @@ export function loginout() {
         fetch(options).then((data) => {
                 if (data.ret) {
                     dispatch(loginoutSuc());
+                    message.success("退出登录成功");
+                    callBack();
                 } else {
                     dispatch(loginoutFail());
+                    message.success("退出登录失败");
                 }
             })
             .catch(() => {
                 dispatch(loginoutFail());
+                message.success("网络连接错误");
             })
     }
 }
