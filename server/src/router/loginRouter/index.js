@@ -41,6 +41,7 @@ Router.post('/', (req, res, next) => {
     User.findOne({ "username": userName, "type": type }, (err, data) => {
         var hmc = crypto.createHash('sha256', config.hmcKeyGen);
         passWord = hmc.update(passWord).digest('hex');
+        console.log(passWord);
         if (err) {
             res.send({
                 errorCode: 1,

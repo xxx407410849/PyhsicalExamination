@@ -71,16 +71,16 @@ class SlideMenu extends React.Component {
                             {this.renderSubTitle("reconciliation", "考官信息设置", "menu-sub-title-teacherset")}
                         </Menu.Item>
                         <Menu.Item
-                            key="classInsert"
+                            key="studentSet"
                         >
                             {this.renderSubTitle("solution", "考生信息设置", "menu-sub-title-studentset")}
                         </Menu.Item>
                     </SubMenu>
-                    <Menu.Item
+                    {/* <Menu.Item
                         key="infoCheck"
                     >
                         {this.renderSubTitle("file-text", "体能考核名单信息总览", "menu-sub-title-infoCheck")}
-                    </Menu.Item>
+                    </Menu.Item> */}
                 </Menu>
                 <Divider extraClass=" sliderMenu-divider" />
                 {/* <LogoDiv /> */}

@@ -10,8 +10,8 @@ class CenterDiv extends React.PureComponent{
     render(){
         let {vertical,extraClass} = this.props;
         let cls = "lancelot-div " + 
-        (extraClass ? extraClass : "") + 
-        (vertical ? "lancelot-div-vertical" : "");
+        (extraClass ? extraClass : "") +
+        (vertical ? " lancelot-div-vertical" : "");
         return (
             <div className = {cls}>
                 {this.props.children}

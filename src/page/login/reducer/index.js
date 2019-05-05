@@ -6,7 +6,8 @@ import {
     LOGINOUT_SUC,
     LOGINOUT_FAIL,
     CHANGECODE_FAIL,
-    CHANGECODE_SUC
+    CHANGECODE_SUC,
+    LOGIN
 } from '../action/index';
 let initState = {
     loginLoading: false, //默认加载未完成
@@ -19,6 +20,14 @@ let initState = {
 
 export default function loginReducer(state = initState, action) {
     switch (action.type) {
+        case LOGIN: 
+            return {
+                ...state,
+                loginLoading: false,
+                loginStatus: false,
+                errorMsg: "",
+                errorCode: ""
+            }
         case LOGIN_FAIL:
             return {
                 ...state,

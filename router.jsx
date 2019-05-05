@@ -9,7 +9,7 @@ import { message } from 'antd';
 
 //redux监控
 const unsubscribe = store.subscribe(() => {
-    console.log(store.getState())
+    console.log(store.getState());
 })
 
 //-----页面注册----
@@ -17,6 +17,8 @@ const Home = asnycLoad(() => import('./src/page/index.jsx'));
 // const Home = asnycLoad(() => import('./src/page/index.jsx'));
 const Basis = asnycLoad(() => import('./src/page/basis/index'));
 const Login = asnycLoad(() => import('./src/page/login/index'));
+const Score = asnycLoad(() => import('./src/page/score/index'));
+const ErrorPage = asnycLoad(() => import('./src/page/error/index'));
 // const Login = import('./src/page/login/index');
 // import Login from './src/page/login/index';
 
@@ -71,20 +73,29 @@ class PrivateRoute extends React.Component {
     //     })
     // };
     render() {
-        const { component: Component, home, login, ...rest } = this.props;
+        const { component: Component, home, login, accessType, ...rest } = this.props;
+        let userType = home.type || login.userType;
         return (
             <Route
                 {...rest}
                 render={props => {
                     if (!home.reloadStatus && !login.loginLoading) return <div>Loading</div>;
+                    if (!(home.userName || login.loginStatus))message.warning("请先登录");
                     return (home.userName || login.loginStatus)
-                        ? <Component {...props} />
-                        : <Redirect
+                        ? (!accessType || [...accessType].indexOf(userType) != -1 ?
+                            <Component {...props} /> :
+                            <Redirect
+                                to={{
+                                    pathname: '/block',
+                                    state: { from: props.location }
+                                }}
+                            />)
+                        : (<Redirect
                             to={{
                                 pathname: '/',
                                 state: { from: props.location }
                             }}
-                        />
+                        />)
 
                 }
                 }
@@ -100,7 +111,7 @@ function select(state) {
     };
 }
 
-PrivateRoute = connect(select,null,null,{pure : false})(PrivateRoute);
+PrivateRoute = connect(select, null, null, { pure: false })(PrivateRoute);
 
 
 // const PrivateRoute = ({ component : Component , ...rest}) => {
@@ -130,7 +141,9 @@ export default (
             <div style={{ "height": "100%", "width": "100%" }}>
                 <Route path="/" component={Home} />
                 <Route exact path="/" component={Login} />
-                <PrivateRoute path="/app" component={Basis} />
+                <Route exact path="/block" component={ErrorPage} />
+                <PrivateRoute path="/basis" component={Basis} accessType={["admin"]} />
+                <PrivateRoute path="/score" component={Score} accessType={["admin", "teacher"]} />
             </div>
         </Provider>
         {/* <Route path = "/emotionList" component = {Breadcrumb} />

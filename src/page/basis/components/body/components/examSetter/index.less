@@ -1,0 +1,63 @@
+@fatherwidth : 256px * 4;
+.body-es-ctn{
+    width: 100%;
+    height: 100%;
+    position: relative;
+    .body-es-setbar{
+        width: 100%;
+        height: 20%;
+        border-bottom: 4px solid #F5F5F5;
+        display: flex;
+        flex-direction: row;
+
+        .leftinfo{
+            width: 120px;
+            height: 100%;
+            text-align: left;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-evenly;
+            margin-left: 15px;
+            border-right: 2px solid #F5F5F5;
+            :first-child{
+                color: #DDA0DD;
+            }
+            :nth-child(2){
+                color: #FF6347;
+            }
+            p{
+                font-size: 12px;
+                margin-bottom: 0;
+            }
+        }
+        .inputbar{
+            width: @fatherwidth - 240;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-right: 2px solid #F5F5F5;
+        }
+        .rightinfo{
+            width: 105px;
+            height: 100%;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            p{
+                font-size: 12px;
+                color: #00DDDD;
+            }
+        }
+    }
+    .body-es-tablebar{
+        width: 100%;
+        height: 80%;
+        max-height: 80%;
+        .ant-table-placeholder{
+            margin-top: -167px
+        }
+    }
+}

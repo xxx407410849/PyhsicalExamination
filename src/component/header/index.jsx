@@ -1,5 +1,5 @@
 import React from 'react';
-import { Menu, Row, Col } from 'antd';
+import { Menu, Row, Col, Button, message } from 'antd';
 import { Link } from 'react-router-dom';
 import './index.less';
 import Divider from '../../pureComponent/divider/index.jsx';
@@ -7,6 +7,8 @@ import AutoCompleteInput from '../../pureComponent/autoCompleteInput/index.jsx';
 import { VelocityTransitionGroup, velocityHelpers } from 'velocity-react';
 import { velocity } from '../../config/velocityAnimateMap.jsx';
 import { connect } from 'react-redux';
+import fetch from '../../common/fetch.jsx';
+import { Host } from '../../config/host.jsx';
 class Header extends React.Component {
     constructor(props) {
         super(props);
@@ -28,7 +30,24 @@ class Header extends React.Component {
     _searchHandle = (value, option) => {
         console.log("search", value, option);
     };
-
+    loginoutHandle = () => {
+        let options = {
+            url : Host.prodHost.nodeHost + Host.hosts.loginout,
+            method : "GET"
+        };
+        fetch(options).then((data)=>{
+            if(data.ret){
+                message.success("已退出登录");
+                location.pathname = "/";
+            }else{
+                message.error("未退出登录");
+            }
+        })
+        .catch((err)=>{
+            console.log(err);
+            message.error("网络连接失败,退出账号失败");
+        })
+    };
     render() {
         let {home , login} = this.props;
         let userName = home.userName || login.loginUser;
@@ -56,18 +75,18 @@ class Header extends React.Component {
                         <div className = "h-rightctn">
                             <Menu
                                 mode="horizontal"
-                                defaultSelectedKeys={['phyexmData']}
+                                defaultSelectedKeys={[location.pathname.replace("/","")]}
                                 style={{ lineHeight: "64px" , "justifySelf" : "end"}}
                                 id="menu-right"
                             >
-                                <Menu.Item key="authority">
-                                    <Link to="/authority">权限管理</Link>
+                                <Menu.Item key="score" style = {{display : (userType === "admin" || userType === "teacher") ? "inline-block" : "none"}}>
+                                    <Link to="/score">成绩录入</Link>
                                 </Menu.Item>
-                                <Menu.Item key="phyexmData">
-                                    <Link to="/phyexmData">基础数据设置</Link>
+                                <Menu.Item key="basis" style = {{display : (userType === "admin") ? "inline-block" : "none"}}>
+                                    <Link to="/basis">基础数据设置</Link>
                                 </Menu.Item>
                                 <Menu.Item key="dataVisual">
-                                    <Link to="/dataVisual">数据分析</Link>
+                                    <Link to="/dataVisual">成绩分析及查询</Link>
                                 </Menu.Item>
                                 <Menu.Item>
                                     <Link to="/explain">作品介绍</Link>
@@ -83,6 +102,9 @@ class Header extends React.Component {
                                     <span className="name">{userName}</span>
                                 </div>
                             </VelocityTransitionGroup>
+                            <div className = "h-loginout" onClick = {this.loginoutHandle}>
+                                <span>注销</span>
+                            </div>
                         </div>
                 </Row>
             </nav>

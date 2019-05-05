@@ -12,6 +12,7 @@ class Home extends React.Component{
         }
     }
     componentDidMount(){
+        console.log(111);
         this.props.dispatch(authorCheck());
     }
     componentWillReceiveProps(){

@@ -1,3 +1,4 @@
+export const LOGIN = 'LOGIN';
 export const LOGIN_FAIL = "LOGIN_FAIL";
 export const LOGIN_SUC = "LOGIN_SUC";
 export const RELOGIN = 'RELOGIN';
@@ -8,11 +9,14 @@ export const CHANGECODE_SUC = "CHANGECODE_SUC";
 
 
 import fetch from '../../../common/fetch.jsx';
+
+import { message } from 'antd';
 import {
     Host
 } from '../../../config/host.jsx';
 export function login(userName, password, type) {
     return dispatch => {
+        dispatch(loginChangeState());
         let options = {
             url: Host.prodHost.nodeHost + Host.hosts.login,
             data: {
@@ -38,7 +42,11 @@ export function login(userName, password, type) {
             })
     }
 }
-
+const loginChangeState = () => {
+    return {
+        type : LOGIN
+    }
+}
 const loginSuc = (data) => {
     return {
         type: LOGIN_SUC,
@@ -110,8 +118,10 @@ export function changeCode(userName, type, passWord, passWordF, passWordS) {
         fetch(options).then((data) => {
                 if (data.ret) {
                     dispatch(changeCodeSuc());
+                    message.success("修改密码成功");
                 } else {
                     dispatch(changeCodeFail(data.errMsg));
+                    message.success("修改密码失败");
                 }
             })
             .catch((error) => {

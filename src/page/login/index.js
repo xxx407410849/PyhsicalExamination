@@ -10,7 +10,7 @@ import md5 from 'js-md5';
 import { Redirect } from 'react-router-dom';
 //校验规则
 const regusername = /^(?!_)(?!.*?_$)[a-zA-Z0-9_]{6,14}/;
-const regpassword = /[a-zA-Z0-9^%&';=?$x22]{8,}/;
+const regpassword = /[a-zA-Z0-9^%&';=?$x22]{3,}/;
 //布局方式
 const formItemLayout = {
     labelCol: {
@@ -30,6 +30,7 @@ class Login extends React.Component {
             feedBackMsg: "" //默认没有feedback
         }
         this.isRelogin = false; //默认不是自动登录
+        this.isTryLogin = false; //默认从未有登录过
         if(Utils.urlParse().changeCode === "1"){
             this.changeCodeStatus = true; //验证是否是从url进入的修改密码模式
             this.state.pageStatus = 1;
@@ -57,7 +58,13 @@ class Login extends React.Component {
 
             message.warning("您已登录，若需切换用户请先注销");
             this.isRelogin = true;
-            this.props.history.replace('/app');
+            if(this.props.home.type === "admin"){
+                this.props.history.replace('/basis');
+            }else if(this.props.home.type === "teacher"){
+                this.props.history.replace('/score');
+            }else{
+                this.props.history.replace('/dataVisual');
+            }
         }
     }
     componentWillUnmount(){
@@ -71,12 +78,19 @@ class Login extends React.Component {
                 if(this.isRelogin)return;
                 if(this.changeCodeStatus) return;
                 message.success("登录成功，3秒后跳转页面");
-                // <Redirect to = "/data"/>;
                 this.timer = setTimeout(()=>{
-                    this.props.history.push('/app');
+                    if(nextProps.login.userType === "admin"){
+                        location.pathname = '/basis';
+                    }else if(nextProps.login.userType === "teacher"){
+                        location.pathname = '/score';
+                    }else{
+                        location.pathname = '/dataVisual';
+                    }
                 },3000);
             }else{
-                message.error(nextProps.errorMsg);
+                if(this.isTryLogin)return;
+                message.error(nextProps.login.errorMsg);
+                this.isTryLogin = true; //避免重复提示
             }
         }
     }
@@ -84,19 +98,20 @@ class Login extends React.Component {
         if(this.timer)return;
         e.preventDefault();
         this.props.form.validateFields((err, value) => {
-            if (!err) {
-                console.log(value);
+            if (err) {
+                return;
             }
             let passWord = md5(value.passWord);
             this.props.dispatch(login(value.userName, passWord, value.type));
+            this.isTryLogin = false;
         })
     };
     _changeCodeHandle = (e) => {
         if(this.timer)return;
         e.preventDefault();
         this.props.form.validateFields((err, value) => {
-            if (!err) {
-                console.log(value);
+            if (err) {
+                return;
             }
             let passWord = md5(value.passWord);
             let passWordF = md5(value.newPassWordF);
@@ -159,7 +174,7 @@ class Login extends React.Component {
                     {getFieldDecorator('passWord', {
                         rules: [
                             { required: true, message: '密码不能为空' },
-                            { pattern: regpassword, message: '密码非法，请输入8位及以上非汉字密码' }
+                            { pattern: regpassword, message: '密码非法，请输入3位及以上非汉字密码' }
                         ],
                     })(
                         <Input prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />} type="password" placeholder="Password" />
@@ -173,7 +188,7 @@ class Login extends React.Component {
                         getFieldDecorator('newPassWordF', {
                             rules: [
                                 { required: true, message: '新密码不能为空' },
-                                { pattern: regpassword, message: '密码非法，请输入8位及以上非汉字密码' },
+                                { pattern: regpassword, message: '密码非法，请输入3位及以上非汉字密码' },
                                 { validator: this.compareToSecondCode }
                             ]
                         })(
@@ -189,7 +204,7 @@ class Login extends React.Component {
                         getFieldDecorator('newPassWordS', {
                             rules: [
                                 { required: true, message: '密码不能为空' },
-                                { pattern: regpassword, message: '密码非法，请输入8位及以上非汉字密码' },
+                                { pattern: regpassword, message: '密码非法，请输入3位及以上非汉字密码' },
                                 { validator: this.compareToFirstCode }
                             ]
                         })(
@@ -247,7 +262,7 @@ class Login extends React.Component {
                     {getFieldDecorator('passWord', {
                         rules: [
                             { required: true, message: '密码不能为空' },
-                            { pattern: regpassword, message: '密码非法，请输入8位及以上非汉字密码' }
+                            { pattern: regpassword, message: '密码非法，请输入3位及以上非汉字密码' }
                         ],
                     })(
                         <Input prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />} type="password" placeholder="Password" />

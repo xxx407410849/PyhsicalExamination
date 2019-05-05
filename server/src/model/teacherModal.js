@@ -8,13 +8,11 @@ let TeacherSchema = new mongoose.Schema({
         index : true,
         unique : true
     }, //教师编号
-    examId : String, //考试分组编号
     name : String, //名称
-    age : Number, //年龄
-    sex : String, //性别
-    tel : String, //联系电话
-    address : String, //送培单位
-    email : String //邮箱
+    tel : {type : String , default : ''}, //联系电话
+    address : {type : String , default : ''}, //联系地址
+    email : {type : String , default : ''}, //邮箱
+    num : {type : Number , default : 0} //仅作为计数用
 });
 //创建User集合
 var Teacher = mongoose.model('Teacher',TeacherSchema);

@@ -54,7 +54,7 @@ class Basis extends React.Component{
                             menuClickHandle = {this._menuClickHandle}
                             menuOpenHandle = {this._menuOpenHandle}
                         />
-                        <Body />
+                        <Body selectKey = {this.state.menuSelectedKey}/>
                     </CenterDiv>
                 </div>
 

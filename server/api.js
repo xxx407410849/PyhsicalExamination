@@ -13,6 +13,10 @@ var authorRouter = require('./src/router/authorRouter/index');
 var loginRouter = require('./src/router/loginRouter/index');
 var changeCodeRouter = require('./src/router/changeCodeRouter/index');
 var examRouter = require('./src/router/examRouter/index');
+var subRouter = require('./src/router/subRouter/index');
+var stuRouter = require('./src/router/studentRouter/index');
+var teacherRouter = require('./src/router/teacherRouter/index');
+var scoreRouter = require('./src/router/scoreRouter/index');
 //配置
 const app = express();
 app.use(logger('dev'));
@@ -52,6 +56,10 @@ app.use('/author', authorRouter);
 app.use('/login',loginRouter);
 app.use('/changeCode',changeCodeRouter);
 app.use('/exam',examRouter);
+app.use('/sub',subRouter);
+app.use('/stu',stuRouter);
+app.use('/teacher',teacherRouter);
+app.use('/score',scoreRouter);
 app.get('/', (req, res) => {
     res.send("hello world");
 
