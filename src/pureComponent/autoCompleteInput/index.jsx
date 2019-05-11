@@ -9,16 +9,6 @@ class AutoCompleteInput extends React.Component{
             selectInput : false
         }
     }
-    renderOption = (item) => {
-        return (
-            <AutoComplete.Option key = {item.type + "," + item.text} text = {item.text}>
-                {item.type === "product" ? <Icon type="deployment-unit" style = {{fontSize : "16px" , color : "#e84454"}} /> : null}
-                {item.type === "user" ? <Icon type="user" style = {{fontSize : "16px" , color : "#1969a9"}} /> : null}
-                {item.type === "team" ? <Icon type="team" style = {{fontSize : "16px" , color : "#45980c"}} /> : null}
-                <span className = "autoInput-item">{item.text}</span>
-            </AutoComplete.Option>
-        )
-    };
     focusHandle = () => {
         this.setState({
             selectInput : true
@@ -30,21 +20,21 @@ class AutoCompleteInput extends React.Component{
         })
     };
     render(){
-        let {placeholder,searchHandle,extraClass,searchMentionHandle,dataSource} = this.props;
+        let {placeholder,searchHandle,extraClass,searchMentionHandle,dataSource,renderOption,isCollapse} = this.props;
         return (
             <AutoComplete
-                onSearch = {searchMentionHandle}
                 size = "large"
-                className = {(extraClass ? extraClass : "") + " autoInput" + (this.state.selectInput ? " selected" : "")}
-                dataSource = {dataSource.map(this.renderOption)}
+                className = {(extraClass ? extraClass : "") + " autoInput" + (this.state.selectInput && isCollapse ? " selected" : "")}
+                dataSource = {dataSource.map(renderOption)}
                 onSelect = {searchHandle}
                 optionLabelProp = "text"
                 onBlur = {this.onBlurHandle}
                 onFocus = {this.focusHandle}
+                
             >
                 <Input.Search
                     placeholder = {placeholder}
-                    onSearch = {searchHandle}
+                    onSearch = {searchMentionHandle}
                 >
                 </Input.Search>
             </AutoComplete>

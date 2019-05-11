@@ -17,7 +17,9 @@ let StudentSchema = new mongoose.Schema({
     score : {type : [] , default : ''}, //mixedArray -- 成绩
     cid : {type : String , default : ''}, //身份证
     type : {type : String , default : ''}, //学生类型（复或者初试）
-    email : {type : String , default : ''} //邮箱
+    email : {type : String , default : ''}, //邮箱
+    address : {type : String , default : ''} //地址
+
 });
 //创建User集合
 var Student = mongoose.model('Student',StudentSchema);

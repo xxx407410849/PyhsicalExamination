@@ -171,7 +171,7 @@ Router.post('/import', (req, res, next) => {
                                             "subSort": item.subSort
                                         }, {
                                             ...item,
-                                            calScore : resScore
+                                            calScore: resScore
                                         }, (err, data) => {
                                             if (err) {
                                                 console.log(err);
@@ -191,6 +191,30 @@ Router.post('/import', (req, res, next) => {
                 })
             }
         }
+    })
+});
+Router.post('/stu',(req,res,next)=>{
+    let {key} = req.body;
+    Score.find({stuId : key},{"_id" : 0 , "__v" : 0},(err,data)=>{
+        if(err){
+            res.send({
+                ret : false,
+                errMsg : "查找失败"
+            })
+        }else{
+            if(data && data.length != 0){
+                res.send({
+                    ret : true,
+                    data : data
+                })
+            }else{
+                res.send({
+                    ret : false,
+                    errMsg : "该学生所在班级基础数据未设置完全或成绩表未初始化或该学生不存在"
+                })
+            }
+        }
+
     })
 })
 module.exports = Router;

@@ -45,6 +45,12 @@ export const Host = {
         //获得完整班级信息
         getClassInfo : "/exam/sub",
         //上传成绩表
-        importScore : "/score/import"
+        importScore : "/score/import",
+        //查找所有学生的学号
+        getStuId : "/stu/id",
+        //查找单个学生的成绩
+        getStuScore : "/score/stu",
+        //查找单个学生的信息
+        getStuInfo : "/stu/info"
     }
 }

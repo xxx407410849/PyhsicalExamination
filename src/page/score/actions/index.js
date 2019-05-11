@@ -1,5 +1,6 @@
 import fetch from "../../../common/fetch.jsx";
 import { Host } from '../../../config/host.jsx';
+import utils from "../../../common/utils.jsx";
 
 export const ScoreAction = {
     GETCLASSINFO : "GETCLASSINFO",
@@ -52,7 +53,7 @@ const getClassInfoSuc = (data) => {
     }
 }
 
-export function getScore(key){
+export function getScore(key,callBack){
 
     return dispatch => {
         dispatch(getScoreStateChange());
@@ -64,13 +65,15 @@ export function getScore(key){
         }
         fetch(options).then((data)=>{
             if(data.ret){
-                dispatch(getScoreSuc(data.data));
+                dispatch(getScoreSuc(utils.mixedScore(data.data)));
             }else{
                 dispatch(getScoreFail(data.errMsg));
+                callBack(data.errMsg);
             }
         })
         .catch((err)=>{
-            dispatch(getScoreFail())
+            dispatch(getScoreFail());
+            callBack("网络连接失败");
         })
     }
 }

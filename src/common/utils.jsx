@@ -91,5 +91,55 @@ export default {
             type: ""
         });
         saveAs(blob, `${fileName}.xlsx`);
+    },
+    mixedScore : (array) => {
+        let key = array[0].examId.slice(-2);
+        let newArray = [...array];
+        for (let index = 0; index < newArray.length; index++) {
+            const item = newArray[index];
+            if(item.calScore != "-1"){
+                switch (item.subSort) {
+                    case "科目一":
+                        item.mixedScore = item.calScore * 0.05;
+                        break;
+                    case "科目二":
+                        item.mixedScore = item.calScore * 0.2;
+                        break;
+                    case "科目三":
+                        if(key[0] === "U"){
+                            item.mixedScore = item.calScore * 0.2;
+                        }else{
+                            item.mixedScore = item.calScore * 0.15;
+                        }
+                        break;
+                    case "科目四":
+                        if(key[0] === "U"){
+                            item.mixedScore = item.calScore * 0.3;
+                        }else{
+                            item.mixedScore = item.calScore * 0.15;
+                        }
+                        break;
+                    case "科目五":
+                        item.mixedScore = item.calScore * 0.2;
+                        break;
+                    case "科目六":
+                        if(key[0] === "U"){
+                            item.mixedScore = item.calScore * 0.05;
+                        }else{
+                            item.mixedScore = item.calScore * 0.2;
+                        }
+                        break;
+                    case "科目七":
+                        item.mixedScore = item.calScore * 0.05;
+                        break;
+                    default:
+                        break;
+                }
+            }else{
+                item.mixedScore = -1;
+            }  
+        }
+        console.log(newArray);
+        return newArray;
     }
 }

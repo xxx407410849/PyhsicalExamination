@@ -23,14 +23,13 @@ class Score extends React.Component {
     };
     componentWillUnmount() {
     };
-    componentWillReceiveProps(nextProps) {
-        if (nextProps.score.errMsg != "" && this.props.score.errMsg != nextProps.score.errMsg) {
-            message.error(nextProps.score.errMsg);
-        }
-    }
+    getScoreCallBack(msg){
+        console.log(msg);
+        message.warning(msg);
+    };
     selectHandle = (value) => {
         if (value) {
-            this.props.dispatch(getScore(value));
+            this.props.dispatch(getScore(value,this.getScoreCallBack));
             this.setState({
                 selectKey: value,
                 uploadData: []

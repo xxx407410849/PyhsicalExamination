@@ -64,13 +64,6 @@ class Header extends React.Component {
                         <div className="h-bg run-bg">
                         </div>
                         <div className="h-searchctn">
-                            <AutoCompleteInput
-                                placeholder="全站搜索"
-                                searchHandle={this._searchHandle}
-                                searchMentionHandle={this._searchMentionHandle}
-                                dataSource={this.state.mentionData}
-                                extraClass="h-autoInput"
-                            />
                         </div>
                         <div className = "h-rightctn">
                             <Menu

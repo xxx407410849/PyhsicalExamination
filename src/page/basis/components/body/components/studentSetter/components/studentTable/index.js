@@ -26,7 +26,7 @@ const exportTips = (
         <p style={{ color: "red" }}>请不要修改考生ID以及班级ID!!请置空或者保持其不变</p>
     </div>
 )
-const defaultArray = [{ id: "", examId: "", name: "", age: "", sex: "", tel: "", unit: "", cid: "", type: "", email: "" }];
+const defaultArray = [{ id: "", examId: "", name: "", age: "", sex: "", tel: "", unit: "", cid: "", type: "", email: "",address: "" }];
 class StuSetTable extends React.Component {
     constructor(props) {
         super(props);
@@ -215,6 +215,12 @@ class StuSetTable extends React.Component {
             key: 'email',
             align: 'center',
             width: 150
+        },{
+            title: '地址',
+            dataIndex: 'address',
+            key: 'address',
+            align: 'center',
+            width: 250
         }];
         return (
             <Table
@@ -225,7 +231,7 @@ class StuSetTable extends React.Component {
                 rowKey="id"
                 pagination={false}
                 loading={!stuGetLoading}
-                scroll={{ y: 382, x: 1750 }}
+                scroll={{ y: 382, x: 2000 }}
                 rowSelection={this.state.uploadData.length === 0 ? {
                     fixed: true,
                     onChange: this.radioChangeHandle
