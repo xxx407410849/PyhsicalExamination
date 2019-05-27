@@ -20,7 +20,7 @@ class AutoCompleteInput extends React.Component{
         })
     };
     render(){
-        let {placeholder,searchHandle,extraClass,searchMentionHandle,dataSource,renderOption,isCollapse} = this.props;
+        let {placeholder,searchHandle,extraClass,searchMentionHandle,dataSource,renderOption,isCollapse,disabled} = this.props;
         return (
             <AutoComplete
                 size = "large"
@@ -30,6 +30,7 @@ class AutoCompleteInput extends React.Component{
                 optionLabelProp = "text"
                 onBlur = {this.onBlurHandle}
                 onFocus = {this.focusHandle}
+                disabled = {disabled}
                 
             >
                 <Input.Search

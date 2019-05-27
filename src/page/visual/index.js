@@ -20,7 +20,9 @@ class Visual extends React.Component {
             isSelect: false, //默认未完成选择
             visualModel: true, //true表示是表单，false表示是可视化报表,默认是true
             selectStuId: "",
-            stuInfo: []
+            stuInfo: [],
+            limitSearch: false, //默认不限制查询
+            limitStu: "" //默认没有限制学生
         }
     };
     radioChangeHandle = (e) => {
@@ -31,23 +33,36 @@ class Visual extends React.Component {
         this.changeSelect(false);
     };
     componentDidMount() {
-        let options = {
-            url: Host.prodHost.nodeHost + Host.hosts.getStuId,
-            method: "GET"
-        }
-        fetch(options).then((data) => {
-            if (data.ret) {
-                this.setState({
-                    stuList: data.data
-                });
-            } else {
-                message.error(data.errMsg);
-            }
-        })
-            .catch((err) => {
-                message.error("请检查网络");
+        let { home, login } = this.props;
+        let userType = home.type || login.userType;
+        let userName = home.userName || login.loginUser;
+        if (userType === "student") {
+            this.setState({
+                limitSearch: true,
+                limitStu: userName
+            },()=>{
+                this.props.dispatch(getStuScore(userName, this.getScoreCallBack));
+                this.getStuInfo();
             });
-        this.props.dispatch(getClassInfo());
+        } else {
+            let options = {
+                url: Host.prodHost.nodeHost + Host.hosts.getStuId,
+                method: "GET"
+            }
+            fetch(options).then((data) => {
+                if (data.ret) {
+                    this.setState({
+                        stuList: data.data
+                    });
+                } else {
+                    message.error(data.errMsg);
+                }
+            })
+                .catch((err) => {
+                    message.error("请检查网络");
+                });
+            this.props.dispatch(getClassInfo());
+        }
     };
     //------
     searchSelectHandle = (value) => {
@@ -58,7 +73,7 @@ class Visual extends React.Component {
             this.changeSelect(true);
             this.setState({
                 selectStuId: value
-            },()=>{
+            }, () => {
                 if (!this.state.visualModel) {
                     this.getStuInfo();
                 };
@@ -74,7 +89,7 @@ class Visual extends React.Component {
         this.changeSelect(true);
         this.setState({
             selectStuId: value
-        },()=>{
+        }, () => {
             if (!this.state.visualModel) {
                 this.getStuInfo();
             };
@@ -135,7 +150,7 @@ class Visual extends React.Component {
         let options = {
             url: Host.prodHost.nodeHost + Host.hosts.getStuInfo,
             data: {
-                key: this.state.selectStuId
+                key: this.state.limitStu ? this.state.limitStu : this.state.selectStuId
             }
         };
         fetch(options).then((data) => {
@@ -286,8 +301,8 @@ class Visual extends React.Component {
         }];
         console.log(this.props);
         let sumScore = 0;
-        stuScoreData.forEach((item)=>{
-            if(item.mixedScore != -1){
+        stuScoreData.forEach((item) => {
+            if (item.mixedScore != -1) {
                 sumScore = sumScore + item.mixedScore;
             }
         });
@@ -298,7 +313,11 @@ class Visual extends React.Component {
                     <div className="vis-header">
                         <div className="vis-header-radio">
                             <span className="radio-tips">请选择查询方式:  </span>
-                            <Radio.Group onChange={this.radioChangeHandle} defaultValue="stu" size="large">
+                            <Radio.Group
+                                onChange={this.radioChangeHandle}
+                                defaultValue="stu" size="large"
+                                disabled={this.state.limitSearch}
+                            >
                                 <Radio.Button value="stu">按学生</Radio.Button>
                                 {this.state.visualModel ? <Radio.Button value="cls">按班级</Radio.Button> : null}
                             </Radio.Group>
@@ -314,12 +333,14 @@ class Visual extends React.Component {
                                         dataSource={this.state.stuList}
                                         renderOption={this.renderAutoOptions}
                                         isCollapse={false}
+                                        disabled={this.state.limitSearch}
                                     />
                                     :
                                     <Select
                                         className="vis-select-class"
                                         onSelect={this.selectClassHandle}
                                         placeholder="请选择班级批次"
+                                        disabled={this.state.limitSearch}
                                     >
                                         {
                                             nameData.map((item) => {
@@ -335,7 +356,7 @@ class Visual extends React.Component {
                                 icon={this.state.visualModel ? "radar-chart" : "form"}
                                 size="large"
                                 onClick={this.visualBtnClickHandle}
-                                disabled={!this.state.isSelect || this.state.radioSelect != "stu"}
+                                disabled={(!this.state.isSelect && !this.state.limitSearch) || this.state.radioSelect != "stu"}
                                 className="charts-btn"
                             >
                                 {this.state.visualModel ? "可视化报表" : "表单查询"}
@@ -355,9 +376,9 @@ class Visual extends React.Component {
                         {
                             this.state.visualModel ?
                                 (
-                                    this.state.isSelect ?
+                                    this.state.isSelect || this.state.limitSearch?
                                         (
-                                            <div className = "vis-table-body">
+                                            <div className="vis-table-body">
                                                 <Table
                                                     className="vistable"
                                                     dataSource={this.state.radioSelect === "stu" ? this.props.visual.stuScoreData : this.props.score.scoreData}
@@ -368,7 +389,7 @@ class Visual extends React.Component {
                                                     }}
                                                     pagination={false}
                                                     loading={this.state.radioSelect === "stu" ? !this.props.visual.getStuScoreStatus : !this.props.score.getScoreStatus}
-                                                    scroll={{ y: 480 , x : '110%'}}
+                                                    scroll={{ y: 480, x: '110%' }}
                                                 />
                                             </div>
                                         )
@@ -413,12 +434,12 @@ class Visual extends React.Component {
                                                 }}
                                                 pagination={false}
                                                 loading={!this.props.visual.getStuScoreStatus}
-                                                scroll={{ y: 230 , x : 800}}
+                                                scroll={{ y: 230, x: 800 }}
                                             />
                                         </div>
                                         <div className="vis-charts-raddar">
                                             <VisualCharts />
-                                            <div className = "vis-charts-tips">
+                                            <div className="vis-charts-tips">
                                                 <p>根据科目权重该生综合成绩为:{sumScore}</p>
                                             </div>
                                         </div>
@@ -435,7 +456,9 @@ class Visual extends React.Component {
 function select(state) {
     return {
         visual: state.visual,
-        score: state.score
+        score: state.score,
+        login: state.login,
+        home: state.home
     }
 }
 export default connect(select)(Visual);
