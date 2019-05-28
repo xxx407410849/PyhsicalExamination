@@ -24,6 +24,9 @@ const exportTips = (
         <p style={{ color: "green" }}>导入后为预览状态，请确认表单无误再提交</p>
         <p style={{ color: "red" }}>但请保证用做导入的表，表头未被修改</p>
         <p style={{ color: "red" }}>请不要修改考生ID以及班级ID!!请置空或者保持其不变</p>
+        <p style={{ color: "red" , fontWeight: "bold"}}>学生姓名(name)，性别(sex)，身份证(cid)，类型(type)，送培单位(unit)不能为空</p>
+        <p style={{ color: "red" , fontWeight: "bold"}}>类型(type)请设置为“初任训练”或者“定期训练”</p>
+        <p style={{ color: "red" , fontWeight: "bold"}}>送配单位(unit)请保证其与航空公司设置中存在的或将要存在的航空公司名字一致</p>
     </div>
 )
 const defaultArray = [{ id: "", examId: "", name: "", age: "", sex: "", tel: "", unit: "", cid: "", type: "", email: "",address: "" }];

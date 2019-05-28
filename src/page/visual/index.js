@@ -22,7 +22,8 @@ class Visual extends React.Component {
             selectStuId: "",
             stuInfo: [],
             limitSearch: false, //默认不限制查询
-            limitStu: "" //默认没有限制学生
+            limitStu: "", //默认没有限制学生
+            limitAirline: null //默认没有限制航空公司
         }
     };
     radioChangeHandle = (e) => {
@@ -40,36 +41,72 @@ class Visual extends React.Component {
             this.setState({
                 limitSearch: true,
                 limitStu: userName
-            },()=>{
+            }, () => {
                 this.props.dispatch(getStuScore(userName, this.getScoreCallBack));
                 this.getStuInfo();
             });
         } else {
-            let options = {
-                url: Host.prodHost.nodeHost + Host.hosts.getStuId,
-                method: "GET"
-            }
-            fetch(options).then((data) => {
-                if (data.ret) {
-                    this.setState({
-                        stuList: data.data
-                    });
-                } else {
-                    message.error(data.errMsg);
-                }
-            })
-                .catch((err) => {
-                    message.error("请检查网络");
+            if (userType === "airline") {
+                this.setState({
+                    limitAirline: userName
                 });
+                let options = {
+                    url: Host.prodHost.nodeHost + Host.hosts.getStuId,
+                    data: {
+                        key: userName
+                    }
+                }
+                fetch(options).then((data) => {
+                    if (data.ret) {
+                        this.setState({
+                            stuList: data.data
+                        });
+                    } else {
+                        message.error(data.errMsg);
+                    }
+                })
+                    .catch((err) => {
+                        message.error("请检查网络");
+                    });
+            } else {
+                let options = {
+                    url: Host.prodHost.nodeHost + Host.hosts.getStuId,
+                    method: "GET"
+                }
+                fetch(options).then((data) => {
+                    if (data.ret) {
+                        this.setState({
+                            stuList: data.data
+                        });
+                    } else {
+                        message.error(data.errMsg);
+                    }
+                })
+                    .catch((err) => {
+                        message.error("请检查网络");
+                    });
+            }
             this.props.dispatch(getClassInfo());
         }
     };
     //------
     searchSelectHandle = (value) => {
         console.log(value);
+        this.changeSelect(true);
+        this.setState({
+            selectStuId: value
+        }, () => {
+            if (!this.state.visualModel) {
+                this.getStuInfo();
+            };
+        });
+        this.props.dispatch(getStuScore(value, this.getScoreCallBack));
+    };
+    searchStuHandle = (value) => {
+        console.log(value);
         //合法性检测
         let regxStuId = /^SEC[\d]{5,6}[\S]{2}[\d]{3}$/g;
-        if (regxStuId.test(value)) {
+        if (regxStuId.test(value) && !this.state.limitAirline) {
             this.changeSelect(true);
             this.setState({
                 selectStuId: value
@@ -81,20 +118,8 @@ class Visual extends React.Component {
 
             this.props.dispatch(getStuScore(value, this.getScoreCallBack));
         } else {
-            message.warning("该学号不合法,请检查输入");
+            message.warning("该学号不合法或您没有权限输入学号查询学生");
         }
-    };
-    searchStuHandle = (value) => {
-        console.log(value);
-        this.changeSelect(true);
-        this.setState({
-            selectStuId: value
-        }, () => {
-            if (!this.state.visualModel) {
-                this.getStuInfo();
-            };
-        });
-        this.props.dispatch(getStuScore(value, this.getScoreCallBack));
     };
     getScoreCallBack = (msg) => {
         message.error(msg);
@@ -111,7 +136,7 @@ class Visual extends React.Component {
     //----
     selectClassHandle = (value) => {
         this.changeSelect(true);
-        this.props.dispatch(getScore(value, this.getScoreCallBack));
+        this.props.dispatch(getScore(value, this.getScoreCallBack, this.state.limitAirline));
     };
     //---
     changeSelect = (bool) => {
@@ -165,12 +190,12 @@ class Visual extends React.Component {
                 })
             }
         })
-            .catch(() => {
-                message.error("网络连接失败");
-                this.setState({
-                    stuInfo: []
-                })
+        .catch((err) => {
+            message.error("网络连接失败");
+            this.setState({
+                stuInfo: []
             })
+        })
     };
     render() {
         let { nameData } = this.props.score;
@@ -188,7 +213,7 @@ class Visual extends React.Component {
             align: "center",
             width: 200
         }, {
-            title: '考核结果',
+            title: '成绩',
             dataIndex: 'calScore',
             key: 'calScore',
             align: 'center',
@@ -209,7 +234,7 @@ class Visual extends React.Component {
                 }
             }
         }, {
-            title: '成绩',
+            title: '考核成绩',
             dataIndex: 'Score',
             key: 'Score',
             align: 'center',
@@ -243,6 +268,12 @@ class Visual extends React.Component {
             key: 'stuName',
             align: "center",
             width: 150,
+        },  {
+            title: '航空公司',
+            dataIndex: 'airline',
+            key: 'airline',
+            align: 'center',
+            width: 150
         }, {
             title: '科目序号',
             dataIndex: 'subSort',
@@ -266,7 +297,7 @@ class Visual extends React.Component {
             align: "center",
             width: 200
         }, {
-            title: '考核结果',
+            title: '成绩',
             dataIndex: 'calScore',
             key: 'calScore',
             align: 'center',
@@ -287,7 +318,7 @@ class Visual extends React.Component {
                 }
             }
         }, {
-            title: '成绩',
+            title: '考核成绩',
             dataIndex: 'Score',
             key: 'Score',
             align: 'center',
@@ -376,7 +407,7 @@ class Visual extends React.Component {
                         {
                             this.state.visualModel ?
                                 (
-                                    this.state.isSelect || this.state.limitSearch?
+                                    this.state.isSelect || this.state.limitSearch ?
                                         (
                                             <div className="vis-table-body">
                                                 <Table
@@ -389,7 +420,7 @@ class Visual extends React.Component {
                                                     }}
                                                     pagination={false}
                                                     loading={this.state.radioSelect === "stu" ? !this.props.visual.getStuScoreStatus : !this.props.score.getScoreStatus}
-                                                    scroll={{ y: 480, x: '110%' }}
+                                                    scroll={{ y: 480, x: '120%' }}
                                                 />
                                             </div>
                                         )

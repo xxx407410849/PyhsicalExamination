@@ -9,12 +9,14 @@ import CenterDiv from '../../pureComponent/centerDiv/index';
 import { getClassInfo, getScore, setScore } from './actions';
 import utils from '../../common/utils.jsx';
 import ExcelBtn from '../../component/uploadBtn';
+import fetch from '../../common/fetch.jsx';
 class Score extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             selectKey: "",
             uploadData: [],
+            airlineList: [],
             showUploadModal: false
         }
     }
@@ -22,6 +24,24 @@ class Score extends React.Component {
         this.props.dispatch(getClassInfo());
     };
     componentWillUnmount() {
+    };
+    getAirlineList() {
+        let options = {
+            url : Host.prodHost.nodeHost + Host.hosts.getAirline,
+            method : "GET"
+        };
+        fetch(options).then((data)=>{
+            if(data.ret){
+                this.setState({
+                    airlineList : data.data
+                })
+            }else{
+                message.error(data.errMsg);
+            }
+        })
+        .catch((err)=>{
+            message.error("网络连接失败");
+        })
     };
     getScoreCallBack(msg){
         console.log(msg);
@@ -142,6 +162,12 @@ class Score extends React.Component {
             align: "center",
             width: 150,
         }, {
+            title: '航空公司',
+            dataIndex: 'airline',
+            key: 'airline',
+            align: 'center',
+            width: 150
+        }, {
             title: '科目序号',
             dataIndex: 'subSort',
             key: 'subSort',
@@ -164,7 +190,7 @@ class Score extends React.Component {
             align: "center",
             width: 200
         }, {
-            title: '考核结果',
+            title: '成绩',
             dataIndex: 'calScore',
             key: 'calScore',
             align: 'center',
@@ -185,7 +211,7 @@ class Score extends React.Component {
                 }
             }
         }, {
-            title: '成绩',
+            title: '考核结果',
             dataIndex: 'Score',
             key: 'Score',
             align: 'center',
@@ -229,7 +255,7 @@ class Score extends React.Component {
                                 }}
                                 pagination={false}
                                 loading={!getScoreStatus}
-                                scroll={{ y: 475 }}
+                                scroll={{ y: 475 , x : "110%"}}
                                 footer={() => (
                                     scoreData.length != 0 ?
                                         <div className="sctable-footer">

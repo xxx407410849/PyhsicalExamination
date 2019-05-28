@@ -16,6 +16,7 @@ var examRouter = require('./src/router/examRouter/index');
 var subRouter = require('./src/router/subRouter/index');
 var stuRouter = require('./src/router/studentRouter/index');
 var teacherRouter = require('./src/router/teacherRouter/index');
+var airlineRouter = require('./src/router/airlineRouter/index');
 var scoreRouter = require('./src/router/scoreRouter/index');
 //配置
 const app = express();
@@ -60,6 +61,7 @@ app.use('/sub',subRouter);
 app.use('/stu',stuRouter);
 app.use('/teacher',teacherRouter);
 app.use('/score',scoreRouter);
+app.use('/airline',airlineRouter);
 app.get('/', (req, res) => {
     res.send("hello world");
 

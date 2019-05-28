@@ -1,13 +1,13 @@
 var express = require('express');
 var Router = express.Router();
-var Teacher = require('../../model/teacherModal');
+var Airline = require('../../model/airlineModal');
 var User = require('../../model/userModel');
 var config = require('../../common/config');
 var crypto = require('crypto');
 var md5 = require('js-md5');
 var async = require('async');
 Router.get('/get', (req, res, next) => {
-    Teacher.find({
+    Airline.find({
         "id": {
             $ne: "count"
         }
@@ -48,8 +48,8 @@ const dealArray = (array, idx, res) => {
             return dealArray(array, idx + 1, res);
         };
         if (item.id) {
-            //如果拥有id与examId，则视为更改
-            Teacher.findOne({
+            //如果拥有id，则视为更改
+            Airline.findOne({
                 "id": item.id
             }, (err, data) => {
                 if (err) {
@@ -59,7 +59,7 @@ const dealArray = (array, idx, res) => {
                 } else {
                     //防止返回空对象或者数组
                     if (data && data.length != 0) {
-                        Teacher.update({
+                        Airline.update({
                             "id": item.id
                         }, {
                             ...item
@@ -81,7 +81,7 @@ const dealArray = (array, idx, res) => {
             })
         } else {
             console.log(item);
-            Teacher.find({
+            Airline.find({
                 "id": "count"
             }, {
                 id: 1,
@@ -95,12 +95,12 @@ const dealArray = (array, idx, res) => {
                         errMsg: "服务器错误，请先在数据库设置一个count值"
                     });
                 }
-                let teacherId = "T" + String(ansData[0].num + 1).padStart(3, "0");
-                let teacher = new Teacher({
+                let airlineId = "A" + String(ansData[0].num + 1).padStart(3, "0");
+                let airline = new Airline({
                     ...item,
-                    id: teacherId
+                    id: airlineId
                 });
-                teacher.save((err, data) => {
+                airline.save((err, data) => {
                     if (err) {
                         msg.rejectNum++;
                         msg.rejectMsg.push(`第${idx + 1}行存储失败`);
@@ -108,14 +108,14 @@ const dealArray = (array, idx, res) => {
                     } else {
                         msg.acceptNum++;
                         var hmc = crypto.createHash('sha256', config.hmcKeyGen);
-                        let password = hmc.update(md5(teacherId)).digest('hex');
+                        let password = hmc.update(md5(airlineId)).digest('hex');
                         let user = new User({
-                            username: teacherId,
+                            username: airlineId,
                             password: password,
-                            type: "teacher"
+                            type: "airline"
                         });
                         user.save(()=>{
-                            Teacher.update({
+                            Airline.update({
                                 "id": "count"
                             }, {
                                 $inc: {
@@ -144,7 +144,7 @@ Router.post('/import', (req, res, next) => {
 Router.post('/delete', (req, res, next) => {
     console.log(req.body);
     req.body.forEach((item, idx, array) => {
-        Teacher.deleteOne({
+        Airline.deleteOne({
             "id": item
         }, (err, data) => {
             User.deleteOne({
@@ -159,4 +159,5 @@ Router.post('/delete', (req, res, next) => {
         });
     })
 });
+
 module.exports = Router;

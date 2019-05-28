@@ -145,7 +145,7 @@ export default (
                 <Route exact path="/block" component={ErrorPage} />
                 <PrivateRoute path="/basis" component={Basis} accessType={["admin"]} />
                 <PrivateRoute path="/score" component={Score} accessType={["admin", "teacher"]} />
-                <PrivateRoute path="/dataVisual" component={Visual} accessType={["admin", "teacher", "student"]}/>
+                <PrivateRoute path="/dataVisual" component={Visual} accessType={["admin", "teacher", "student","airline"]}/>
             </div>
         </Provider>
         {/* <Route path = "/emotionList" component = {Breadcrumb} />
