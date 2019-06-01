@@ -64,9 +64,9 @@ class Login extends React.Component {
                 this.props.history.replace('/dataVisual');
             }
         }
+        console.log(this.props.home.userName,this.changeCodeStatus);
         if (this.props.home.userName != "" && !this.changeCodeStatus) {
             this.props.dispatch(relogin(this.props.home.userName, this.props.home.type));
-
             message.warning("您已登录，若需切换用户请先注销");
             this.isRelogin = true;
             if(this.props.home.type === "admin"){
