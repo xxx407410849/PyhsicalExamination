@@ -4,7 +4,7 @@ export const Host = {
     //域名
     prodHost: {
         //nodeHost: "//127.0.0.1:3000/getData",
-        nodeHost : "118.24.39.81/getData"
+        nodeHost : "//118.24.39.81/getData"
     },
     //接口
     hosts: {
