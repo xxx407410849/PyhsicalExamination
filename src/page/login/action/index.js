@@ -3,6 +3,7 @@ export const LOGIN_FAIL = "LOGIN_FAIL";
 export const LOGIN_SUC = "LOGIN_SUC";
 export const RELOGIN = 'RELOGIN';
 export const LOGINOUT_SUC = "LOGINOUT_SUC";
+export const LOGINOUT_HOME = "LOGINOUT_HOME";
 export const LOGINOUT_FAIL = "LOGINOUT_FAIL";
 export const CHANGECODE_FAIL = "CHANGECODE_FAIL";
 export const CHANGECODE_SUC = "CHANGECODE_SUC";
@@ -84,6 +85,7 @@ export function loginout(callBack) {
         fetch(options).then((data) => {
                 if (data.ret) {
                     dispatch(loginoutSuc());
+                    dispatch(loginoutHomeClear());
                     message.success("退出登录成功");
                     callBack();
                 } else {
@@ -100,6 +102,11 @@ export function loginout(callBack) {
 const loginoutSuc = () => {
     return {
         type: LOGINOUT_SUC
+    }
+}
+const loginoutHomeClear = () => {
+    return {
+        type: LOGINOUT_HOME
     }
 }
 const loginoutFail = () => {
