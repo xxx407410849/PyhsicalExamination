@@ -7,7 +7,7 @@ var config = require('./src/common/config');
 const app = new express();
 
 //代理设置
-const targetUrl = `http://127.0.0.1:${config.apiPort}`;
+const targetUrl = `http://118.24.39.81:${config.apiPort}`;
 const proxy = httpProxy.createProxyServer({
     target : targetUrl
 });

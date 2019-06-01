@@ -3,7 +3,7 @@ export const Host = {
     blog : "//www.404lancelot.cn",
     //域名
     prodHost : {
-        nodeHost : "//127.0.0.1:3000/getData",
+        nodeHost : "//118.24.39.81/getData",
         //nodeHost : "118.24.39.81:3000"
     },
     //接口

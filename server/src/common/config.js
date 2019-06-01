@@ -1,5 +1,5 @@
 module.exports = {
-    port : 3000,
+    port : 80,
     apiPort : 3800,
     mongodb : 'mongodb://localhost/flyexam',
     cookieSecret : 'lancelot',

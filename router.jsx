@@ -24,7 +24,17 @@ const Login = asnycLoad(() => import('./src/page/login/index'));
 const Score = asnycLoad(() => import('./src/page/score/index'));
 const ErrorPage = asnycLoad(() => import('./src/page/error/index'));
 // import Login from './src/page/login/index';
-
+class UNDO extends React.Component {
+    render(){
+        return (
+            <div>
+                <p>本页面暂时未竣工，此页面为额外附加任务，并不与毕设任务有直接关系</p>
+                <p>相关成绩查询在导入成绩页面就可以完全做到,请注意页面上的筛选和排序按钮</p>
+                <p>通过学生登录将只能进入该页面</p>
+            </div>
+        )
+    }
+}
 class PrivateRoute extends React.Component {
     constructor(props) {
         super(props);
@@ -147,6 +157,7 @@ export default (
                 <Route exact path="/block" component={ErrorPage} />
                 <PrivateRoute path="/basis" component={Basis} accessType={["admin"]} />
                 <PrivateRoute path="/score" component={Score} accessType={["admin", "teacher"]} />
+                <Route exact path="/dataVisual" component={UNDO} />
             </div>
         </Provider>
         {/* <Route path = "/emotionList" component = {Breadcrumb} />
