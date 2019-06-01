@@ -64,7 +64,6 @@ class Login extends React.Component {
                 this.props.history.replace('/dataVisual');
             }
         }
-        console.log(this.props.home.userName,this.changeCodeStatus);
         if (this.props.home.userName != "" && !this.changeCodeStatus) {
             this.props.dispatch(relogin(this.props.home.userName, this.props.home.type));
             message.warning("您已登录，若需切换用户请先注销");
@@ -83,6 +82,17 @@ class Login extends React.Component {
     }
     componentWillReceiveProps(nextProps){
         let loginState = nextProps.login;
+        if (nextProps.home.userName != "" && !this.changeCodeStatus) {
+            message.warning("您已登录，若需切换用户请先注销");
+            this.isRelogin = true;
+            if(nextProps.home.type === "admin"){
+                this.props.history.replace('/basis');
+            }else if(nextProps.home.type === "teacher"){
+                this.props.history.replace('/score');
+            }else{
+                this.props.history.replace('/dataVisual');
+            }
+        }
         if(loginState.loginLoading){
             if(loginState.loginStatus){
                 if(this.timer)return;

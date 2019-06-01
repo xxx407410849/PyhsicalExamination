@@ -126,7 +126,7 @@ function select(state) {
     };
 }
 
-PrivateRoute = connect(select)(PrivateRoute);
+PrivateRoute = connect(select, null, null, { pure: false })(PrivateRoute);
 
 
 // const PrivateRoute = ({ component : Component , ...rest}) => {
