@@ -3,6 +3,7 @@ var Router = express.Router();
 var Student = require('../../model/studentModal');
 var Exam = require('../../model/examModal');
 var Score = require('../../model/scoreModal');
+var Airline = require('../../model/airlineModal');
 var User = require('../../model/userModel');
 var async = require('async');
 var config = require('../../common/config');
@@ -52,19 +53,19 @@ const dealArray = (array, idx, findKey, res) => {
         })
     } else {
         let item = array[idx];
-        if (!item.age || !item.sex || !item.name || !item.type) {
+        if (!item.age || !item.sex || !item.name || !item.type || !item.unit) {
             msg.rejectNum++;
-            msg.rejectMsg.push(`第${idx + 1}行性别或年龄或名字或类型为空`);
+            msg.rejectMsg.push(`第${idx + 1}行性别或年龄或名字或类型或送培公司为空`);
             return dealArray(array, idx + 1, findKey, res);
         };
-        if(!(item.type === "复训" || item.type === "初训")){
+        if (!(item.type === "定期训练" || item.type === "初任训练")) {
             msg.rejectNum++;
-            msg.rejectMsg.push(`第${idx + 1}行请设置为“复训”或者“初训”`);
+            msg.rejectMsg.push(`第${idx + 1}行请设置为“定期训练”或者“初任训练”`);
             return dealArray(array, idx + 1, findKey, res);
         };
-        if(item.age > 35 && item.type === "初训"){
+        if (item.age > 35 && item.type === "初任训练") {
             msg.rejectNum++;
-            msg.rejectMsg.push(`第${idx + 1}行35岁以上只存在初训班`);
+            msg.rejectMsg.push(`第${idx + 1}行35岁以上只存在初任训练班`);
             return dealArray(array, idx + 1, findKey, res);
         };
         if (item.id && item.examId) {
@@ -152,11 +153,11 @@ const dealArray = (array, idx, findKey, res) => {
                         var hmc = crypto.createHash('sha256', config.hmcKeyGen);
                         let password = hmc.update(md5(stuId)).digest('hex');
                         let user = new User({
-                            username : stuId,
-                            password : password,
-                            type : "student"
+                            username: stuId,
+                            password: password,
+                            type: "student"
                         });
-                        user.save(()=>{
+                        user.save(() => {
                             Exam.update({
                                 "id": examId
                             }, {
@@ -228,7 +229,9 @@ Router.post('/delete', (req, res, next) => {
             "id": item
         }, (err, data) => {
             //联结删除
-            User.deleteOne({"username" : item},()=>{
+            User.deleteOne({
+                "username": item
+            }, () => {
                 Score.deleteMany({
                     stuId: item
                 }, (err, data) => {
@@ -240,6 +243,77 @@ Router.post('/delete', (req, res, next) => {
                 });
             });
         });
+    })
+});
+Router.get('/id', (req, res, next) => {
+    Student.find({}, {
+        "id": 1,
+        "_id": 0,
+        "name": 1
+    }, (err, data) => {
+        if (err) {
+            res.send({
+                ret: false,
+                errMsg: err.errmsg
+            });
+        } else {
+            res.send({
+                ret: true,
+                data: data
+            })
+        }
+    });
+});
+Router.post('/id', (req, res, next) => {
+    Airline.findOne({
+        "id": req.body.key
+    }, (err, airlineData) => {
+        if (err || !airlineData) {
+            res.send({
+                ret: false,
+                errMsg: "该航空公司不存在，或服务器错误"
+            });
+        } else {
+            Student.find({
+                "unit": airlineData.name
+            }, {
+                "id": 1,
+                "_id": 0,
+                "name": 1
+            }, (err, data) => {
+                if (err) {
+                    res.send({
+                        ret: false,
+                        errMsg: err.errmsg
+                    });
+                } else {
+                    res.send({
+                        ret: true,
+                        data: data
+                    })
+                }
+            });
+        }
+    })
+})
+Router.post('/info', (req, res, next) => {
+    Student.findOne({
+        "id": req.body.key
+    }, {
+        "_id": 0,
+        "__v": 0
+    }, (err, data) => {
+        if (err || !data) {
+            res.send({
+                ret: false,
+                errMsg: "查无此人或查询失败"
+            });
+        } else {
+            res.send({
+                ret: true,
+                data: data
+            })
+        }
     })
 });
 module.exports = Router;

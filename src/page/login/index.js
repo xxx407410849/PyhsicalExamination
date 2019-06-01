@@ -166,6 +166,7 @@ class Login extends React.Component {
                             <Select.Option value="admin">管理员</Select.Option>
                             <Select.Option value="teacher">老师</Select.Option>
                             <Select.Option value="student">学生</Select.Option>
+                            <Select.Option value="airline">航空公司</Select.Option>
                         </Select>
                     )}
                 </Form.Item>
@@ -254,6 +255,7 @@ class Login extends React.Component {
                             <Select.Option value="admin">管理员</Select.Option>
                             <Select.Option value="teacher">老师</Select.Option>
                             <Select.Option value="student">学生</Select.Option>
+                            <Select.Option value="airline">航空公司</Select.Option>
                         </Select>
                     )}
                 </Form.Item>

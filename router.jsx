@@ -23,6 +23,8 @@ const Basis = asnycLoad(() => import('./src/page/basis/index'));
 const Login = asnycLoad(() => import('./src/page/login/index'));
 const Score = asnycLoad(() => import('./src/page/score/index'));
 const ErrorPage = asnycLoad(() => import('./src/page/error/index'));
+const Visual = asnycLoad(() => import('./src/page/visual/index'));
+// const Login = import('./src/page/login/index');
 // import Login from './src/page/login/index';
 class UNDO extends React.Component {
     render(){
@@ -157,7 +159,7 @@ export default (
                 <Route exact path="/block" component={ErrorPage} />
                 <PrivateRoute path="/basis" component={Basis} accessType={["admin"]} />
                 <PrivateRoute path="/score" component={Score} accessType={["admin", "teacher"]} />
-                <Route exact path="/dataVisual" component={UNDO} />
+                <PrivateRoute path="/dataVisual" component={Visual} accessType={["admin", "teacher", "student","airline"]}/>
             </div>
         </Provider>
         {/* <Route path = "/emotionList" component = {Breadcrumb} />

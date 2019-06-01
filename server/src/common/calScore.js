@@ -26,9 +26,9 @@ const calScore = (stuId, score, subName, callBack) => {
                 sex
             } = stuData;
             let resScore = 0;
-            if (type === "初训") {
+            if (type === "初任训练") {
                 if (sex === "女") {
-                    //初训女评分换算
+                    //初任训练女评分换算
                     switch (subName) {
                         case "BMI指数":
                             score = 10 * parseFloat(score);
@@ -116,7 +116,7 @@ const calScore = (stuId, score, subName, callBack) => {
                             break;
                     }
                 } else if (sex === "男") {
-                    //初训男换算
+                    //初任训练男换算
                     switch (subName) {
                         case "BMI指数":
                             score = 10 * parseFloat(score);
@@ -256,10 +256,10 @@ const calScore = (stuId, score, subName, callBack) => {
                 } else {
                     callBack("学生性别设置有误");
                 }
-            } else if (type === "复训") {
+            } else if (type === "定期训练") {
                 if (sex === "男") {
                     if (age <= 35) {
-                        //复训35以下男换算
+                        //定期训练35以下男换算
                         switch (subName) {
                             case "BMI指数":
                                 score = 10 * parseFloat(score);
@@ -512,7 +512,7 @@ const calScore = (stuId, score, subName, callBack) => {
                                 break;
                         }
                     } else if (age > 35) {
-                        //复训35岁以上男
+                        //定期训练35岁以上男
                         switch (subName) {
                             case "BMI指数":
                                 score = 10 * parseFloat(score);
@@ -697,7 +697,7 @@ const calScore = (stuId, score, subName, callBack) => {
                     }
                 } else if (sex === "女") {
                     if (age <= 35) {
-                        //35以下复训女
+                        //35以下定期训练女
                         switch (subName) {
                             case "BMI指数":
                                 score = 10 * parseFloat(score);
@@ -893,7 +893,7 @@ const calScore = (stuId, score, subName, callBack) => {
                                 break;
                         }
                     } else if (age > 35) {
-                        //35岁以上复训女
+                        //35岁以上定期训练女
                         switch (subName) {
                             case "BMI指数":
                                 score = 10 * parseFloat(score);

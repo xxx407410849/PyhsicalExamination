@@ -1,5 +1,6 @@
 import fetch from "../../../common/fetch.jsx";
 import { Host } from '../../../config/host.jsx';
+import utils from "../../../common/utils.jsx";
 
 export const ScoreAction = {
     GETCLASSINFO : "GETCLASSINFO",
@@ -52,25 +53,33 @@ const getClassInfoSuc = (data) => {
     }
 }
 
-export function getScore(key){
+export function getScore(key,callBack,limitAirline){
 
     return dispatch => {
         dispatch(getScoreStateChange());
         let options = {
             url : Host.prodHost.nodeHost + Host.hosts.getScore,
             data : {
-                key : key
+                key : key,
+                limitAirline : limitAirline || null
             }
         }
         fetch(options).then((data)=>{
             if(data.ret){
-                dispatch(getScoreSuc(data.data));
+                if(!data.data.length){
+                    dispatch(getScoreSuc(data.data));
+                }else{
+                    dispatch(getScoreSuc(utils.mixedScore(data.data)));
+                }
             }else{
                 dispatch(getScoreFail(data.errMsg));
+                callBack(data.errMsg);
             }
         })
         .catch((err)=>{
-            dispatch(getScoreFail())
+            console.log(err);
+            dispatch(getScoreFail());
+            callBack("网络连接失败");
         })
     }
 }

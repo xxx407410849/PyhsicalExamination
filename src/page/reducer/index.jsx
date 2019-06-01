@@ -8,6 +8,7 @@ let initState = {
     type : "",
     reloadStatus : false //默认未完成重新登录
 }
+
 export default function homeReducer(state = initState,action){
     switch (action.type) {
         case ISLOGIN_FAIL:

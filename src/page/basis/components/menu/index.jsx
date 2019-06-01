@@ -75,6 +75,11 @@ class SlideMenu extends React.Component {
                         >
                             {this.renderSubTitle("solution", "考生信息设置", "menu-sub-title-studentset")}
                         </Menu.Item>
+                        <Menu.Item
+                            key="airlineSet"
+                        >
+                            {this.renderSubTitle("key", "航空公司信息设置", "menu-sub-title-airlineset")}
+                        </Menu.Item>
                     </SubMenu>
                     {/* <Menu.Item
                         key="infoCheck"

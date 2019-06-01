@@ -70,24 +70,6 @@ class Breadcrumb extends React.Component{
     }
 }
 
-class Demolist extends React.Component{
-    constructor(props){
-        super(props);
-    }
-    render(){
-        return (
-            <div>
-                <h1>Demolist</h1>
-            <ul>
-                <li><Link to = "/data">code</Link></li>
-                <li><Link to = "/checkbox">checkbox</Link></li>
-                <li><Link to = "/emotionList">Emotion</Link></li>
-                <li><Link to = "/emotionListRedux">Emotion-redux</Link></li>
-            </ul>
-            </div>
-        )
-    }
-}
 
 ReactDOM.render(
     router,

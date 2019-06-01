@@ -50,7 +50,7 @@ Router.post('/add', (req, res, next) => {
             str = str + "F";
             name = `${year}年第${round}次${name}女`;
         }
-        name = name + (i % 2 === 0 ? "复训班" : "初复训班");
+        name = name + (i % 2 === 0 ? "定期训练班" : "初定期训练班");
         let exam = new Exam({
             id: str,
             name: name,

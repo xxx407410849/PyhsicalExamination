@@ -3,6 +3,7 @@ var Router = express.Router();
 var Score = require('../../model/scoreModal');
 var Exam = require('../../model/examModal');
 var Student = require('../../model/studentModal');
+var Airline = require('../../model/airlineModal');
 var async = require('async');
 var cal = require('../../common/calScore');
 let countScore = 0;
@@ -23,7 +24,8 @@ const dealScoreArray = (array, idx, length, res) => {
 Router.post('/get', (req, res, next) => {
     //每一次查询都检查是否生成完整的成绩联结数据,防止学生数据被修改
     let {
-        key
+        key,
+        limitAirline
     } = req.body;
     countScore = 0;
     scoreArray = [];
@@ -54,39 +56,85 @@ Router.post('/get', (req, res, next) => {
                     if (stuData && stuData.length != 0) {
                         let stuLength = stuData.length;
                         stuData.forEach((item, idx) => {
-                            Score.find({
-                                "stuId": item.id
-                            }, {
-                                "_id": 0,
-                                "__v": 0
-                            }, (err, scoreData) => {
-                                if (err) {
-                                    console.log(err.errmsg);
-                                    dealScoreArray([], idx, stuLength, res)
-                                } else {
-                                    //如果拥有data则表示该学生已经设置成绩
-                                    if (scoreData && scoreData.length != 0) {
-                                        dealScoreArray(scoreData, idx, stuLength, res);
+                            if (!limitAirline) {
+                                Score.find({
+                                    "stuId": item.id
+                                }, {
+                                    "_id": 0,
+                                    "__v": 0
+                                }, (err, scoreData) => {
+                                    if (err) {
+                                        console.log(err.errmsg);
+                                        dealScoreArray([], idx, stuLength, res)
                                     } else {
-                                        let ScoreDataMake = [];
-                                        for (const examKey in examData.sub) {
-                                            let saveScoreData = {
-                                                subName: examData.sub[examKey], //科目名字
-                                                subSort: examKey, //科目序列
-                                                examId: key, //班级id
-                                                stuId: item.id, //学生id
-                                                stuName: item.name, //学生姓名
-                                                calScore: -1, //计算后的成绩
-                                                Score: -1 //计算前成绩
+                                        //如果拥有data则表示该学生已经设置成绩
+                                        if (scoreData && scoreData.length != 0) {
+                                            dealScoreArray(scoreData, idx, stuLength, res);
+                                        } else {
+                                            let ScoreDataMake = [];
+                                            for (const examKey in examData.sub) {
+                                                let saveScoreData = {
+                                                    subName: examData.sub[examKey], //科目名字
+                                                    subSort: examKey, //科目序列
+                                                    examId: key, //班级id
+                                                    stuId: item.id, //学生id
+                                                    stuName: item.name, //学生姓名
+                                                    airline: item.unit, //航空公司
+                                                    calScore: -1, //计算后的成绩
+                                                    Score: -1 //计算前成绩
+                                                }
+                                                let score = new Score(saveScoreData);
+                                                score.save();
+                                                ScoreDataMake.push(saveScoreData);
                                             }
-                                            let score = new Score(saveScoreData);
-                                            score.save();
-                                            ScoreDataMake.push(saveScoreData);
+                                            dealScoreArray(ScoreDataMake, idx, stuLength, res);
                                         }
-                                        dealScoreArray(ScoreDataMake, idx, stuLength, res);
                                     }
-                                }
-                            })
+                                })
+                            } else {
+                                Airline.findOne({
+                                    "id": limitAirline
+                                }, (err, airlineData) => {
+                                    if (err || !airlineData|| item.unit != airlineData.name) {
+                                        dealScoreArray([], idx, stuLength, res);
+                                    } else {
+                                        Score.find({
+                                            "stuId": item.id
+                                        }, {
+                                            "_id": 0,
+                                            "__v": 0
+                                        }, (err, scoreData) => {
+                                            if (err) {
+                                                console.log(err.errmsg);
+                                                dealScoreArray([], idx, stuLength, res)
+                                            } else {
+                                                //如果拥有data则表示该学生已经设置成绩
+                                                if (scoreData && scoreData.length != 0) {
+                                                    dealScoreArray(scoreData, idx, stuLength, res);
+                                                } else {
+                                                    let ScoreDataMake = [];
+                                                    for (const examKey in examData.sub) {
+                                                        let saveScoreData = {
+                                                            subName: examData.sub[examKey], //科目名字
+                                                            subSort: examKey, //科目序列
+                                                            examId: key, //班级id
+                                                            stuId: item.id, //学生id
+                                                            stuName: item.name, //学生姓名
+                                                            airline: item.unit, //航空公司
+                                                            calScore: -1, //计算后的成绩
+                                                            Score: -1 //计算前成绩
+                                                        }
+                                                        let score = new Score(saveScoreData);
+                                                        score.save();
+                                                        ScoreDataMake.push(saveScoreData);
+                                                    }
+                                                    dealScoreArray(ScoreDataMake, idx, stuLength, res);
+                                                }
+                                            }
+                                        })
+                                    }
+                                })
+                            }
                         });
                     } else {
                         return res.send({
@@ -171,7 +219,7 @@ Router.post('/import', (req, res, next) => {
                                             "subSort": item.subSort
                                         }, {
                                             ...item,
-                                            calScore : resScore
+                                            calScore: resScore
                                         }, (err, data) => {
                                             if (err) {
                                                 console.log(err);
@@ -191,6 +239,37 @@ Router.post('/import', (req, res, next) => {
                 })
             }
         }
+    })
+});
+Router.post('/stu', (req, res, next) => {
+    let {
+        key
+    } = req.body;
+    Score.find({
+        stuId: key
+    }, {
+        "_id": 0,
+        "__v": 0
+    }, (err, data) => {
+        if (err) {
+            res.send({
+                ret: false,
+                errMsg: "查找失败"
+            })
+        } else {
+            if (data && data.length != 0) {
+                res.send({
+                    ret: true,
+                    data: data
+                })
+            } else {
+                res.send({
+                    ret: false,
+                    errMsg: "该学生所在班级基础数据未设置完全或成绩表未初始化或该学生不存在"
+                })
+            }
+        }
+
     })
 })
 module.exports = Router;

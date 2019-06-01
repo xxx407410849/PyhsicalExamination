@@ -7,6 +7,7 @@ import examset from '../page/basis/components/body/components/examSetter/reducer
 import subset from '../page/basis/components/body/components/subSetter/reducer/index';
 import stuset from '../page/basis/components/body/components/studentSetter/reducer/index';
 import score from '../page/score/reducer/index';
+import visual from '../page/visual/reducer/index';
 export default combineReducers({
     basis,
 
@@ -17,5 +18,6 @@ export default combineReducers({
     subset,
     stuset,
 
-    score
+    score,
+    visual
 })

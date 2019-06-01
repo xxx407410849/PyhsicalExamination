@@ -4,6 +4,7 @@ import ExamSetter from './components/examSetter/index';
 import SubSetter from './components/subSetter/index';
 import StudentSetter from './components/studentSetter/index';
 import TeacherSetter from './components/teacherSetter/index';
+import AirlineSetter from './components/airlineSetter/index';
 class Body extends React.Component{
     constructor(props){
         super(props);
@@ -27,6 +28,9 @@ class Body extends React.Component{
                 break;
             case "teacherSet":
                 Component = TeacherSetter;
+                break;
+            case "airlineSet":
+                Component = AirlineSetter;
                 break;
             default:
                 break;
