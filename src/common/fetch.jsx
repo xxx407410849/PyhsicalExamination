@@ -27,6 +27,7 @@ export default (options) => {
     let xhr = options.xhr ? options.xhr : new XMLHttpRequest();
     return new Promise((resolve, reject) => {
         xhr.open(options.method, options.url, options.async);
+        xhr.withCredentials = true;
         xhr.timeout = options.timeout;
 
         // 请求头
