@@ -303,10 +303,10 @@ Router.post('/info', (req, res, next) => {
         "_id": 0,
         "__v": 0
     }, (err, data) => {
-        if (err) {
+        if (err || !data) {
             res.send({
                 ret: false,
-                errMsg: err.errmsg
+                errMsg: "查无此人或查询失败"
             });
         } else {
             res.send({
