@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, Link, BrowserRouter, Switch, Router, Redirect } from 'react-router-dom';
+import { Route, Link, BrowserRouter, Switch, Router, Redirect,HashRouter } from 'react-router-dom';
 import store from './src/reducer/store.jsx';
 import asnycLoad from './src/common/asnycLoad.jsx';
 import { Provider, connect } from 'react-redux';
@@ -137,7 +137,7 @@ PrivateRoute = connect(select, null, null, { pure: false })(PrivateRoute);
 //     )
 // }
 export default (
-    <BrowserRouter>
+    <HashRouter>
         <Provider store={store}>
             <div style={{ "height": "100%", "width": "100%" }}>
                 <Route path="/" component={Home} />
@@ -155,5 +155,5 @@ export default (
             <Route exact path = "/emotionList" component = {Todolistctncomponent} />
             <Route exact path = "/emotionListRedux" component = {AppReduxEntry} />
         </Switch> */}
-    </BrowserRouter>
+    </HashRouter>
 )
