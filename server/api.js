@@ -41,7 +41,7 @@ app.use(session({
 }));
 //跨域设置
 app.all('/*', (req, res, next) => {
-    res.header("Access-Control-Allow-Origin", "http://www.404lancelot.cn");
+    res.header("Access-Control-Allow-Origin", config.accessOrigin);
     res.header("Access-Control-Allow-Headers", "X-Requested-With,Content-Type,Access-Token");
     res.header("Access-Control-Allow-Methods", "PUT,POST,GET,DELETE,OPTIONS");
     res.header('X-Powered-By', 'lancelot');
